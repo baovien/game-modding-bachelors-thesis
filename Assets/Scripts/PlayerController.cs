@@ -5,13 +5,19 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Vector2 moveInput;
+    private Animator anim;
     private Rigidbody2D myRigidBody2D;
     private static bool playerExists;
+    private float attackTimeCounter;
+
     public float moveSpeed;
+    public float attackTime;
+    public string startPoint;
 
     // Use this for initialization
     void Start()
     {
+        anim = GetComponent<Animator>();
         myRigidBody2D = GetComponent<Rigidbody2D>();
 
         if (!playerExists)
@@ -39,6 +45,21 @@ public class PlayerController : MonoBehaviour
         else
         {
             myRigidBody2D.velocity = Vector2.zero;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            attackTimeCounter = attackTime;
+            anim.SetBool("Attack", true);
+        }
+        
+        if (attackTimeCounter > 0)
+        {
+            attackTimeCounter -= Time.deltaTime;
+        }
+        if (attackTimeCounter <= 0)
+        {
+            anim.SetBool("Attack", false);
         }
 
     }
