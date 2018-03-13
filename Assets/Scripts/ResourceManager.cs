@@ -4,11 +4,11 @@ using UnityEngine;
 
 //TODO: Gjor om til en generell resource klasse. f.eks wood, stone, grass osv.
 
-public class TreeManager : MonoBehaviour
+public class ResourceManager : MonoBehaviour
 {
 	public int maxHealth;
 	public int currentHealth;
-	public int woodToGive;
+	public int resourceToGive;
 
 	private PlayerInventory _playerInventory;
 	
@@ -24,13 +24,14 @@ public class TreeManager : MonoBehaviour
 	void Update () {
 		if (currentHealth <= 0)
 		{
-			_playerInventory.AddWood(woodToGive);
+			_playerInventory.AddResource(gameObject.tag, resourceToGive);
+
 			Destroy(gameObject);
-			Debug.Log("TREE CHOPPED!");
+			Debug.Log("Resource harvested!");
 		}
 	}
 	
-	public void ChopTree(int damageToGive)
+	public void HarvestResource(int damageToGive)
 	{
 		currentHealth -= damageToGive;
 	}

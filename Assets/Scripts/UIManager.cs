@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
 	public Slider healthBar;
 	public Text HPText;
     public Text woodText;
+	public Text stoneText;
 	public PlayerHealthManager playerHealth;
     public PlayerInventory playerInventory;
 	
@@ -24,5 +25,6 @@ public class UIManager : MonoBehaviour
 		healthBar.value = playerHealth.playerCurrentHealth;
         HPText.text = "" + playerHealth.playerCurrentHealth;
         woodText.text = "Wood: " + playerInventory.wood;
+		stoneText.text = "Stone: " + playerInventory.stone;
 	}
 }

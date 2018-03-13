@@ -70,7 +70,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   currentHealth: 0
-  woodToGive: 5
+  resourceToGive: 5
 --- !u!212 &212176356649549244
 SpriteRenderer:
   m_ObjectHideFlags: 1
