@@ -645,11 +645,6 @@ Prefab:
       propertyPath: m_Name
       value: Rock_Big
       objectReference: {fileID: 0}
-    - target: {fileID: 114471572390681592, guid: 982ef63b6b8a242af87a28bebf1c91ad,
-        type: 2}
-      propertyPath: maxHealth
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 982ef63b6b8a242af87a28bebf1c91ad, type: 2}
   m_IsPrefabParent: 0
@@ -1512,11 +1507,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4147475301947440, guid: 1eaf35a407e0ed447a9022fd6804b3cd, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.436
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4147475301947440, guid: 1eaf35a407e0ed447a9022fd6804b3cd, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -5.792
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4147475301947440, guid: 1eaf35a407e0ed447a9022fd6804b3cd, type: 2}
       propertyPath: m_LocalPosition.z
@@ -6206,7 +6201,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2112846605}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.54, y: -4.71, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

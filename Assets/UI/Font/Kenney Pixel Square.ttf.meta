@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 8ad7d65510d4f094ca99fbed6595edbb
+timeCreated: 1521031827
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Kenney Pixel Square
+  fontNames:
+  - Kenney Pixel Square
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
