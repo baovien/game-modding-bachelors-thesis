@@ -9,8 +9,10 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D myRigidBody2D;
     private static bool playerExists;
     private float attackTimeCounter;
+    private static float moveSpeedDefault;
 
     public float moveSpeed;
+    public float moveSpeedMultiplier;
     public float attackTime;
     public string startPoint;
 
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         myRigidBody2D = GetComponent<Rigidbody2D>();
+        moveSpeedDefault = moveSpeed;
 
         if (!playerExists)
         {
@@ -36,23 +39,44 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
        
+        /**
+         * Player base movement
+         */
         moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
 
         if (moveInput != Vector2.zero)
         {
-            myRigidBody2D.velocity = new Vector2(moveInput.x * moveSpeed, moveInput.y * moveSpeed);
+            myRigidBody2D.velocity = new Vector2(moveInput.x * moveSpeedDefault, moveInput.y * moveSpeedDefault);
         }
         else
         {
             myRigidBody2D.velocity = Vector2.zero;
         }
         
+        /**
+         * Attack
+         */
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             attackTimeCounter = attackTime;
             anim.SetBool("Attack", true);
         }
         
+        /**
+         * Sprint
+         */
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            moveSpeedDefault = moveSpeed * moveSpeedMultiplier;
+        }
+        else if(Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            moveSpeedDefault = moveSpeed;
+        }
+        
+        /**
+         * Attack time counter
+         */
         if (attackTimeCounter > 0)
         {
             attackTimeCounter -= Time.deltaTime;

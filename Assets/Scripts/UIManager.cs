@@ -13,11 +13,6 @@ public class UIManager : MonoBehaviour
 	public PlayerHealthManager playerHealth;
     public PlayerInventory playerInventory;
 	
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
 	// Update is called once per frame
 	void Update ()
 	{

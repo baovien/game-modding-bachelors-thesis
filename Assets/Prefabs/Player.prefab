@@ -178,6 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
+  moveSpeedMultiplier: 1.5
   attackTime: 0.2
   startPoint: 
 --- !u!114 &114486040217652384
