@@ -11,7 +11,6 @@ public class Harvest : MonoBehaviour {
         if (other.gameObject.CompareTag("Tree") || other.gameObject.CompareTag("Rock"))
         {
             other.gameObject.GetComponent<ResourceManager>().HarvestResource(damageToGive);
-            Debug.Log("HIT");
         }
     }
 }

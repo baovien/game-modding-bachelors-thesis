@@ -36,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1881695099915436}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.05, y: 2.55, z: 0.0029005602}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -56,7 +56,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.37
 --- !u!114 &114947957105959186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -71,6 +71,8 @@ MonoBehaviour:
   maxHealth: 5
   currentHealth: 0
   resourceToGive: 5
+  pickableObject: {fileID: 1431505011295576, guid: cc70ea9080b862a46aec6b01835a53e1,
+    type: 2}
 --- !u!212 &212111105583231052
 SpriteRenderer:
   m_ObjectHideFlags: 1
