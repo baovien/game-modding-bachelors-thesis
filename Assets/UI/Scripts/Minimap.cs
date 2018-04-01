@@ -7,7 +7,7 @@ public class Minimap : MonoBehaviour
 
 	public Transform player;
 
-	private Camera camera;
+	private new Camera camera;
 	
 	
 	

@@ -7,6 +7,7 @@ TagManager:
   - Tree
   - Rock
   - MinimapCamera
+  - ItemDatabase
   layers:
   - Default
   - TransparentFX
