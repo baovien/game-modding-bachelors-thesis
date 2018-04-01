@@ -11,21 +11,27 @@ public class Inventory : MonoBehaviour
 	
 	private ItemDatabase database;
 	private bool showInventory;
+	private bool showTooltip;
+	private string tooltip;
 	
 	// Use this for initialization
 	void Start ()
 	{	
 		// Fill the slots list with empty items.
-		for (int i = 0; i < (slotsX*slotsY); i++)
+		for (int i = 0; i < slotsX*slotsY; i++)
 		{
 			slots.Add(new Item());
 			inventory.Add(new Item());
 		}
 		
 		database = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
-		inventory[0] = database.items[0];
-		inventory[1] = database.items[1];
-
+		
+		// Adding items to empty inventory slots
+		AddItem(0);
+		AddItem(1);
+		
+		RemoveItem(1);
+		
 	}
 
 	void Update()
@@ -39,17 +45,25 @@ public class Inventory : MonoBehaviour
 	//Unity method to draw in screen space
 	void OnGUI ()
 	{
+		tooltip = "";
 		GUI.skin = skin;
 		if (showInventory)
 		{	
 			DrawInventory();	
 		}
 		
+		if(showTooltip && showInventory)
+		{
+			GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 150, 150), tooltip, skin.GetStyle("Tooltip"));
+		}
+
+		showTooltip = false;
 	}
 
 	void DrawInventory()
-	{
-		//Index value 
+	{	
+		
+		Event e = Event.current;;
 		int i = 0;
 		
 		//Draws slots
@@ -64,10 +78,55 @@ public class Inventory : MonoBehaviour
 				if (slots[i].itemName != null)
 				{
 					GUI.DrawTexture(slotRect, slots[i].itemIcon);
+					if (slotRect.Contains(e.mousePosition))
+					{
+						tooltip = "<color=#ffffff><b>" + slots[i].itemName + " </b> \n\n" +  slots[i].itemDesc + "</color>";
+						showTooltip = true;
+					}
 				}
 				
 				i++;
 			}
 		}
+	}
+
+	void RemoveItem(int id)
+	{
+		for (int i = 0; i < inventory.Count; i++)
+		{
+			if (inventory[i].itemID == id)
+			{
+				inventory[i] = new Item();
+				break;
+			}
+		}
+	}
+
+	void AddItem(int id)
+	{
+		for (int i = 0; i < inventory.Count; i++)
+		{
+			if (inventory[i].itemName == null)
+			{
+				for (int j = 0; j < database.items.Count; j++)
+				{
+					if (database.items[j].itemID == id)
+					{
+						inventory[i] = database.items[j];
+					}
+				}
+				break;
+			}
+		}
+	}
+
+	bool InventoryContains(int id)
+	{
+		foreach(Item item in inventory){
+			if(item.itemID == id){ 
+				return true; 
+			}
+		}
+		return false; 
 	}
 }
