@@ -13,10 +13,17 @@ public class Inventory : MonoBehaviour
 	private bool showInventory;
 	private bool showTooltip;
 	private string tooltip;
+	private bool draggingItem;
+	private Item draggedItem;
+	private int prevIndex;
+	private int iconSize;
+	
 	
 	// Use this for initialization
 	void Start ()
-	{	
+	{
+		iconSize = 30;
+		
 		// Fill the slots list with empty items.
 		for (int i = 0; i < slotsX*slotsY; i++)
 		{
@@ -29,9 +36,7 @@ public class Inventory : MonoBehaviour
 		// Adding items to empty inventory slots
 		AddItem(0);
 		AddItem(1);
-		
-		RemoveItem(1);
-		
+				
 	}
 
 	void Update()
@@ -40,6 +45,12 @@ public class Inventory : MonoBehaviour
 		{
 			showInventory = !showInventory;
 		}
+		
+		if (draggingItem) {
+			inventory[prevIndex] = draggedItem;
+			draggingItem = false;
+			draggedItem = null;
+		}
 	}	
 	
 	//Unity method to draw in screen space
@@ -47,6 +58,7 @@ public class Inventory : MonoBehaviour
 	{
 		tooltip = "";
 		GUI.skin = skin;
+		
 		if (showInventory)
 		{	
 			DrawInventory();	
@@ -54,7 +66,12 @@ public class Inventory : MonoBehaviour
 		
 		if(showTooltip && showInventory)
 		{
-			GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 150, 150), tooltip, skin.GetStyle("Tooltip"));
+			GUI.Box(new Rect(Event.current.mousePosition.x + 15f, Event.current.mousePosition.y, 150, 150), tooltip, skin.GetStyle("Tooltip"));
+		}
+
+		if (draggingItem)
+		{
+			GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, iconSize, iconSize), draggedItem.itemIcon );
 		}
 
 		showTooltip = false;
@@ -62,7 +79,6 @@ public class Inventory : MonoBehaviour
 
 	void DrawInventory()
 	{	
-		
 		Event e = Event.current;;
 		int i = 0;
 		
@@ -71,17 +87,48 @@ public class Inventory : MonoBehaviour
 		{
 			for (int x = 0; x < slotsX; x++)
 			{
-				Rect slotRect = new Rect(x * 50, y * 50, 50, 50);
-				GUI.Box(new Rect(x * 50, y * 50, 50, 50), "", skin.GetStyle("Slot"));
+				Rect slotRect = new Rect(x * iconSize, y * iconSize, iconSize, iconSize);
+				GUI.Box(new Rect(x * iconSize, y * iconSize, iconSize, iconSize), "", skin.GetStyle("Slot"));
 				slots[i] = inventory[i];
 
 				if (slots[i].itemName != null)
 				{
 					GUI.DrawTexture(slotRect, slots[i].itemIcon);
+					
 					if (slotRect.Contains(e.mousePosition))
 					{
 						tooltip = "<color=#ffffff><b>" + slots[i].itemName + " </b> \n\n" +  slots[i].itemDesc + "</color>";
 						showTooltip = true;
+						
+						//Drag item
+						if (e.button == 0 && e.type == EventType.MouseDrag && !draggingItem)
+						{
+							draggingItem = true;
+							prevIndex = i;
+							draggedItem = slots[i];
+							inventory[i] = new Item();
+						}
+
+						//Swap items position
+						if (e.type == EventType.MouseUp && draggingItem)
+						{
+							inventory[prevIndex] = inventory[i];
+							inventory[i] = draggedItem;
+							draggingItem = false;
+							draggedItem = null;
+						}
+					}
+				}
+				else
+				{	// Allows to drag an item to an empty slot
+					if (slotRect.Contains(e.mousePosition))
+					{
+						if (e.type == EventType.MouseUp && draggingItem)
+						{
+							inventory[i] = draggedItem;
+							draggingItem = false;
+							draggedItem = null;
+						}
 					}
 				}
 				
