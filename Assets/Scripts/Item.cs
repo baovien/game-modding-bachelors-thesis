@@ -15,6 +15,7 @@ public class Item
     public enum ItemType
     {
         Resource, 
+        Consumable,
         Tool,
         Weapon,
         Armor //Headgear, chest, leggings?

@@ -8,7 +8,8 @@ public class Inventory : MonoBehaviour
 	public List<Item> inventory = new List<Item>();
 	public List<Item> slots = new List<Item>();
 	public GUISkin skin;
-	
+
+	private PlayerHealthManager playerHealthManager;
 	private ItemDatabase database;
 	private bool showInventory;
 	private bool showTooltip;
@@ -18,11 +19,13 @@ public class Inventory : MonoBehaviour
 	private int prevIndex;
 	private int iconSize;
 	
-	
 	// Use this for initialization
 	void Start ()
 	{
-		iconSize = 30;
+		playerHealthManager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealthManager>();
+		database = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
+		
+		iconSize = 40;
 		
 		// Fill the slots list with empty items.
 		for (int i = 0; i < slotsX*slotsY; i++)
@@ -31,11 +34,10 @@ public class Inventory : MonoBehaviour
 			inventory.Add(new Item());
 		}
 		
-		database = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
-		
 		// Adding items to empty inventory slots
 		AddItem(0);
 		AddItem(1);
+		AddItem(2);
 				
 	}
 
@@ -44,12 +46,12 @@ public class Inventory : MonoBehaviour
 		if (Input.GetButtonDown("Inventory"))
 		{
 			showInventory = !showInventory;
-		}
-		
-		if (draggingItem) {
-			inventory[prevIndex] = draggedItem;
-			draggingItem = false;
-			draggedItem = null;
+			
+			if (draggingItem) {
+				inventory[prevIndex] = draggedItem;
+				draggingItem = false;
+				draggedItem = null;
+			}
 		}
 	}	
 	
@@ -61,25 +63,28 @@ public class Inventory : MonoBehaviour
 		
 		if (showInventory)
 		{	
-			DrawInventory();	
+			DrawInventory();
 		}
 		
+		//Show tooltip when hovering over an item
 		if(showTooltip && showInventory)
 		{
 			GUI.Box(new Rect(Event.current.mousePosition.x + 15f, Event.current.mousePosition.y, 150, 150), tooltip, skin.GetStyle("Tooltip"));
 		}
-
+		
+		//Draw item when dragged
 		if (draggingItem)
 		{
 			GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, iconSize, iconSize), draggedItem.itemIcon );
 		}
-
+		
+		//Disables tooltip when inventory is closed
 		showTooltip = false;
 	}
 
 	void DrawInventory()
 	{	
-		Event e = Event.current;;
+		Event e = Event.current;
 		int i = 0;
 		
 		//Draws slots
@@ -90,22 +95,21 @@ public class Inventory : MonoBehaviour
 				Rect slotRect = new Rect(x * iconSize, y * iconSize, iconSize, iconSize);
 				GUI.Box(new Rect(x * iconSize, y * iconSize, iconSize, iconSize), "", skin.GetStyle("Slot"));
 				slots[i] = inventory[i];
+				Item item = slots[i];
 
-				if (slots[i].itemName != null)
+				if (item.itemName != null)
 				{
-					GUI.DrawTexture(slotRect, slots[i].itemIcon);
+					GUI.DrawTexture(slotRect, item.itemIcon);
 					
 					if (slotRect.Contains(e.mousePosition))
 					{
-						tooltip = "<color=#ffffff><b>" + slots[i].itemName + " </b> \n\n" +  slots[i].itemDesc + "</color>";
-						showTooltip = true;
 						
 						//Drag item
 						if (e.button == 0 && e.type == EventType.MouseDrag && !draggingItem)
 						{
 							draggingItem = true;
 							prevIndex = i;
-							draggedItem = slots[i];
+							draggedItem = item;
 							inventory[i] = new Item();
 						}
 
@@ -116,6 +120,20 @@ public class Inventory : MonoBehaviour
 							inventory[i] = draggedItem;
 							draggingItem = false;
 							draggedItem = null;
+						}
+
+						if (e.isMouse && e.type == EventType.MouseDown && e.button == 1)
+						{
+							if (item.itemType == Item.ItemType.Consumable)
+							{
+								UseConsumable(item, i, true);
+							}
+						}
+
+						if (!draggingItem)
+						{
+							tooltip = "<color=#ffffff><b>" + item.itemName + " </b> \n\n" +  item.itemDesc + "</color>";
+							showTooltip = true;
 						}
 					}
 				}
@@ -175,5 +193,21 @@ public class Inventory : MonoBehaviour
 			}
 		}
 		return false; 
+	}
+	
+	void UseConsumable(Item item, int slot, bool deleteItem)
+	{
+		switch (item.itemID)
+		{
+			//Meat
+			case 2:
+				playerHealthManager.HealPlayer(10);
+				break;
+		}
+
+		if (deleteItem)
+		{
+			inventory[slot] = new Item();
+		}
 	}
 }

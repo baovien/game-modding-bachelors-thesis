@@ -63,4 +63,9 @@ public class PlayerHealthManager : MonoBehaviour {
         flashCounter = flashLength;
         //sfxMan.playerHurt.Play();
     }
+
+    public void HealPlayer(int hpToHeal)
+    {
+        playerCurrentHealth += hpToHeal;
+    }
 }

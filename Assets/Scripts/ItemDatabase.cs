@@ -10,6 +10,7 @@ public class ItemDatabase : MonoBehaviour
 	{
 		items.Add(new Item("Stone", 0, "Just stone", Item.ItemType.Resource));
 		items.Add(new Item("Wood", 1, "Just wood", Item.ItemType.Resource));
+		items.Add(new Item("Meat", 2, "Just meat", Item.ItemType.Consumable));
 
 	}
 }
