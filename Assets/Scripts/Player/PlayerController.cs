@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private Animator anim;
     private Rigidbody2D myRigidBody2D;
+    private Inventory inventory;
     private static bool playerExists;
     private float attackTimeCounter;
     private static float moveSpeedDefault;
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
         anim = GetComponent<Animator>();
         myRigidBody2D = GetComponent<Rigidbody2D>();
         moveSpeedDefault = moveSpeed;
@@ -56,7 +58,7 @@ public class PlayerController : MonoBehaviour
         /**
          * Attack
          */
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !inventory.GetInventoryStatus())
         {
             attackTimeCounter = attackTime;
             anim.SetBool("Attack", true);

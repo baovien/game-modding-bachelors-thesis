@@ -18,6 +18,7 @@ public class Inventory : MonoBehaviour
 	private Item draggedItem;
 	private int prevIndex;
 	private int iconSize;
+	private bool isInventoryOpen;
 	
 	// Use this for initialization
 	void Start ()
@@ -46,6 +47,7 @@ public class Inventory : MonoBehaviour
 		if (Input.GetButtonDown("Inventory"))
 		{
 			showInventory = !showInventory;
+			isInventoryOpen = !isInventoryOpen;
 			
 			if (draggingItem) {
 				inventory[prevIndex] = draggedItem;
@@ -209,5 +211,10 @@ public class Inventory : MonoBehaviour
 		{
 			inventory[slot] = new Item();
 		}
+	}
+
+	public bool GetInventoryStatus()
+	{
+		return isInventoryOpen;
 	}
 }
