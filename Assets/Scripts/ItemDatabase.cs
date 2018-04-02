@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * Add items that is needed.
+ */
 public class ItemDatabase : MonoBehaviour
 {
 	public List<Item> items = new List<Item>();

@@ -25,7 +25,9 @@ public class ResourceManager : MonoBehaviour
 		{
 			_playerInventory.AddResource(gameObject.tag, resourceToGive);
 			
-			Instantiate(pickableObject, transform.position, transform.rotation);
+			//Instantiate pickable gameobject after harvesting resource
+			var instaniatedPrefab = Instantiate(pickableObject, transform.position, transform.rotation);
+			instaniatedPrefab.transform.localScale = new Vector3(2, 2, transform.position.z); //Scales up the object
 			
 			Destroy(gameObject);
 		}
