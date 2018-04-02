@@ -34,11 +34,6 @@ public class Inventory : MonoBehaviour
 			slots.Add(new Item());
 			inventory.Add(new Item());
 		}
-		
-		// Adding items to empty inventory slots
-		AddItem(0);
-		AddItem(1);
-		AddItem(2);
 				
 	}
 
@@ -106,12 +101,14 @@ public class Inventory : MonoBehaviour
 			{
 				Rect slotRect = new Rect(x * iconSize, y * iconSize, iconSize, iconSize);
 				GUI.Box(new Rect(x * iconSize, y * iconSize, iconSize, iconSize), "", skin.GetStyle("Slot"));
+				
 				slots[i] = inventory[i];
 				Item item = slots[i];
 
 				if (item.itemName != null)
 				{
 					GUI.DrawTexture(slotRect, item.itemIcon);
+					GUI.Label(slotRect, item.itemQuantity.ToString());
 					
 					if (slotRect.Contains(e.mousePosition))
 					{
@@ -144,7 +141,7 @@ public class Inventory : MonoBehaviour
 
 						if (!draggingItem)
 						{
-							tooltip = "<color=#ffffff><b>" + item.itemName + " </b> \n\n" +  item.itemDesc + "</color>";
+							tooltip = "<color=#ffffff><b>" + item.itemName + " </b> \n\n" +  item.itemDesc + "</color>\n\n" + "Amount: " + item.itemQuantity;
 							showTooltip = true;
 						}
 					}
@@ -183,7 +180,14 @@ public class Inventory : MonoBehaviour
 	{
 		for (int i = 0; i < inventory.Count; i++)
 		{
-			if (inventory[i].itemName == null)
+			//Find empty inventory space
+			if (inventory[i].itemID == id && inventory[i].isStackable)
+			{
+				inventory[i].itemQuantity += 1;
+				break;
+			}
+			
+			if(inventory[i].itemName == null)
 			{
 				for (int j = 0; j < database.items.Count; j++)
 				{
