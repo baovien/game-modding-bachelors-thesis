@@ -41,9 +41,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
        
-        /**
-         * Player base movement
-         */
+        //Player movement
         moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
 
         if (moveInput != Vector2.zero)
@@ -55,18 +53,14 @@ public class PlayerController : MonoBehaviour
             myRigidBody2D.velocity = Vector2.zero;
         }
         
-        /**
-         * Attack
-         */
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !inventory.GetInventoryStatus())
+        //Attack
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             attackTimeCounter = attackTime;
             anim.SetBool("Attack", true);
         }
         
-        /**
-         * Sprint
-         */
+        //Sprint
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             moveSpeedDefault = moveSpeed * moveSpeedMultiplier;
@@ -76,9 +70,7 @@ public class PlayerController : MonoBehaviour
             moveSpeedDefault = moveSpeed;
         }
         
-        /**
-         * Attack time counter
-         */
+        //Attack time counter
         if (attackTimeCounter > 0)
         {
             attackTimeCounter -= Time.deltaTime;
@@ -87,6 +79,20 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetBool("Attack", false);
         }
+    }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Wood"))
+        {
+            inventory.AddItem(1);
+            Destroy(other.gameObject);
+       
+        }else if (other.gameObject.CompareTag("Stone"))
+        {
+            inventory.AddItem(0);
+            Destroy(other.gameObject);
+
+        }
     }
 }

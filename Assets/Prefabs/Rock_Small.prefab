@@ -71,7 +71,7 @@ MonoBehaviour:
   maxHealth: 2
   currentHealth: 0
   resourceToGive: 2
-  pickableObject: {fileID: 1431505011295576, guid: cc70ea9080b862a46aec6b01835a53e1,
+  pickableObject: {fileID: 1444966118419616, guid: 6f80127b28b00ef4195b45ec3b774872,
     type: 2}
 --- !u!212 &212896296028022360
 SpriteRenderer:

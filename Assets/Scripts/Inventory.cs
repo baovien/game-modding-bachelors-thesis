@@ -179,7 +179,7 @@ public class Inventory : MonoBehaviour
 		}
 	}
 
-	void AddItem(int id)
+	public void AddItem(int id)
 	{
 		for (int i = 0; i < inventory.Count; i++)
 		{
