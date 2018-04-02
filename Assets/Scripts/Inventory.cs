@@ -60,6 +60,16 @@ public class Inventory : MonoBehaviour
 	//Unity method to draw in screen space
 	void OnGUI ()
 	{
+		if (GUI.Button(new Rect(40, 400, 100, 40), "Save"))
+		{
+			SaveInventory();
+		}
+
+		if (GUI.Button(new Rect(40, 450, 100, 40), "Load"))
+		{
+			LoadInventory();
+		}
+		
 		tooltip = "";
 		GUI.skin = skin;
 		
@@ -210,6 +220,22 @@ public class Inventory : MonoBehaviour
 		if (deleteItem)
 		{
 			inventory[slot] = new Item();
+		}
+	}
+
+	void SaveInventory()
+	{
+		for (int i = 0; i < inventory.Count; i++)
+		{
+			PlayerPrefs.SetInt("Inventory " + i, inventory[i].itemID);
+		}
+	}
+
+	void LoadInventory()
+	{
+		for (int i = 0; i < inventory.Count; i++)
+		{
+			inventory[i] = PlayerPrefs.GetInt("Inventory " + i, -1) >= 0 ? database.items[PlayerPrefs.GetInt("Inventory " + i)]: new Item();
 		}
 	}
 

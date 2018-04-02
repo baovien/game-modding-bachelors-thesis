@@ -24,9 +24,7 @@ public class ResourceManager : MonoBehaviour
 		if (currentHealth <= 0)
 		{
 			_playerInventory.AddResource(gameObject.tag, resourceToGive);
-			
-			Instantiate(pickableObject, transform.position, transform.rotation);
-			
+						
 			Destroy(gameObject);
 		}
 	}

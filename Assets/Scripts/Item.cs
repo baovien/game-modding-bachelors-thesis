@@ -20,8 +20,11 @@ public class Item
         Weapon,
         Armor //Headgear, chest, leggings?
     }
-    
-    public Item(){}
+
+    public Item()
+    {
+        itemID = -1;
+    }
     
     public Item(string name, int id, string desc, ItemType type)
     {
