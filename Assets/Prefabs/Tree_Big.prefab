@@ -36,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1594687844959612}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.391251, y: 1.4266944, z: -1.5410156}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -71,6 +71,8 @@ MonoBehaviour:
   maxHealth: 10
   currentHealth: 0
   resourceToGive: 10
+  pickableObject: {fileID: 1927223196542256, guid: 3557538ec67365b489e19942fb26e921,
+    type: 2}
 --- !u!212 &212176356649549244
 SpriteRenderer:
   m_ObjectHideFlags: 1

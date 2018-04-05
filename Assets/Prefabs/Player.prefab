@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114483112106209774}
   - component: {fileID: 114552151734303792}
   - component: {fileID: 114721855004157182}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 212052055048403400}
   - component: {fileID: 61587967440021150}
   - component: {fileID: 114790032697536308}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: player_hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   moveSpeedMultiplier: 1.5
-  attackTime: 0.2
+  attackTime: 0.1
   startPoint: 
 --- !u!114 &114486040217652384
 MonoBehaviour:

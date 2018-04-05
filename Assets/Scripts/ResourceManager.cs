@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//TODO: Gjor om til en generell resource klasse. f.eks wood, stone, grass osv.
-
 public class ResourceManager : MonoBehaviour
 {
 	public int maxHealth;
 	public int currentHealth;
 	public int resourceToGive;
+	public GameObject pickableObject;
+	
 
 	private PlayerInventory _playerInventory;
 	
@@ -17,17 +17,19 @@ public class ResourceManager : MonoBehaviour
 	{
 		currentHealth = maxHealth;
 		_playerInventory = FindObjectOfType<PlayerInventory>();
-		Debug.Log(_playerInventory);
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		if (currentHealth <= 0)
 		{
 			_playerInventory.AddResource(gameObject.tag, resourceToGive);
-
+			
+			//Instantiate pickable gameobject after harvesting resource
+			var instaniatedPrefab = Instantiate(pickableObject, transform.position, transform.rotation);
+			instaniatedPrefab.transform.localScale = new Vector3(2, 2, transform.position.z); //Scales up the object
+			
 			Destroy(gameObject);
-			Debug.Log("Resource harvested!");
 		}
 	}
 	
