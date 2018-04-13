@@ -139,7 +139,6 @@ public class Cycle2DDN : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(cycle);
 		if (started && colored) {
 			UpdateMainColor ();
 			UpdateAnimated ();

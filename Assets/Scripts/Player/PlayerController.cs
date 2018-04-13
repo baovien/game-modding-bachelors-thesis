@@ -87,12 +87,17 @@ public class PlayerController : MonoBehaviour
         {
             inventory.AddItem(1);
             Destroy(other.gameObject);
-       
-        }else if (other.gameObject.CompareTag("Stone"))
+
+        } else if (other.gameObject.CompareTag("Stone"))
         {
             inventory.AddItem(0);
             Destroy(other.gameObject);
 
+        } else if (other.gameObject.CompareTag("Pickup"))
+        {
+            inventory.AddItem(3);
+            Debug.Log("HEAHAHAEHA");
+            Destroy(other.gameObject);
         }
     }
 }

@@ -19,13 +19,20 @@ public class Inventory : MonoBehaviour
 	private int prevIndex;
 	private int iconSize;
 	private bool isInventoryOpen;
+
+    // Blocksystem and buildsystem references
+    private BlockSystem blockSys;
+    private BuildSystem buildSys;
 	
 	// Use this for initialization
 	void Start ()
 	{
 		playerHealthManager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealthManager>();
 		database = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
-		
+
+        blockSys = GetComponent<BlockSystem>();
+        buildSys = GetComponent<BuildSystem>(); 
+
 		iconSize = 40;
 		
 		// Fill the slots list with empty items.
@@ -34,8 +41,21 @@ public class Inventory : MonoBehaviour
 			slots.Add(new Item());
 			inventory.Add(new Item());
 		}
-				
+        inventory.Add(database.items[3]);	
 	}
+    // Check if the array contains any blocks
+    public bool CheckForBlocks()
+    {
+        bool isEmpty = true;
+        for (int i = 0; i < blockSys.allBlocks.Length; i++)
+        {
+            if (blockSys.allBlocks[i].amountInInventory > 0)
+            {
+                isEmpty = false;
+            }
+        }
+        return isEmpty;
+    }
 
 	void Update()
 	{
@@ -176,17 +196,17 @@ public class Inventory : MonoBehaviour
 		}
 	}
 
-	public void AddItem(int id)
+    public void AddItem(int id)
 	{
 		for (int i = 0; i < inventory.Count; i++)
 		{
-			//Find empty inventory space
 			if (inventory[i].itemID == id && inventory[i].isStackable)
 			{
 				inventory[i].itemQuantity += 1;
 				break;
 			}
 			
+			//Find empty inventory space
 			if(inventory[i].itemName == null)
 			{
 				for (int j = 0; j < database.items.Count; j++)
