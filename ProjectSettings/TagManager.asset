@@ -12,6 +12,7 @@ TagManager:
   - Stone
   - Wood
   - Pickup
+  - Crafting
   layers:
   - Default
   - TransparentFX
