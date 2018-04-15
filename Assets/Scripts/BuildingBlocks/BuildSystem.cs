@@ -35,8 +35,6 @@ public class BuildSystem : MonoBehaviour
     // Player object reference
     private GameObject playerObject;
 
-    // Inventory reference
-    private Inventory inventory;
     private ItemDatabase database;
     private List<Item> blockList;
     private List<Item> blockList2;
@@ -49,9 +47,6 @@ public class BuildSystem : MonoBehaviour
     {
         // Get player
         playerObject = GameObject.Find("Player");
-
-        // Store a reference to the inventory script
-        inventory = GetComponent<Inventory>();
 
         database = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
         //blockList = database.items;
@@ -66,13 +61,13 @@ public class BuildSystem : MonoBehaviour
             Debug.Log(blockList[0]);
             buildModeOn = !buildModeOn;
 
-            if(blockTemplate != null)
+            if (blockTemplate != null)
             {
                 Destroy(blockTemplate);
             }
 
             // No current block type set:
-            if(currentBlock == null)
+            if (currentBlock == null)
             {
                 // ensure allBlocks array is ready
                 if (blockList[currentBlockID] != null)
@@ -96,11 +91,12 @@ public class BuildSystem : MonoBehaviour
             }
         }
 
-        if(buildModeOn && blockTemplate != null)
+        if (buildModeOn && blockTemplate != null)
         {
             float newPosX = Mathf.Round(Camera.main.ScreenToWorldPoint(Input.mousePosition).x / blockSizedMod) * blockSizedMod;
             float newPosY = Mathf.Round(Camera.main.ScreenToWorldPoint(Input.mousePosition).y / blockSizedMod) * blockSizedMod;
             blockTemplate.transform.position = new Vector2(newPosX, newPosY);
+            currentRend.sortingOrder = 2;
 
             RaycastHit2D rayHit;
             if (currentBlock.isSolid == true)
@@ -116,8 +112,7 @@ public class BuildSystem : MonoBehaviour
             {
                 buildBlocked = false;
             }
-
-            if (Vector2.Distance(playerObject.transform.position, blockTemplate.transform.position) > buildDistance)
+            if (Vector2.Distance(playerObject.transform.position, blockTemplate.transform.position) > buildDistance || Vector2.Distance(playerObject.transform.position, blockTemplate.transform.position) < playerObject.GetComponent<Renderer>().bounds.size.y)
             {
                 buildBlocked = true;
             }
@@ -133,14 +128,14 @@ public class BuildSystem : MonoBehaviour
             }
             // Using scrollwheel to traverse the list of blocks. 
             float mousewheel = Input.GetAxis("Mouse ScrollWheel");
-            if(mousewheel != 0)
+            if (mousewheel != 0)
             {
-                selectableBlocksTotal = blockList.Count -1;
+                selectableBlocksTotal = blockList.Count - 1;
 
-                if(mousewheel > 0)
+                if (mousewheel > 0)
                 {
                     currentBlockID--;
-                    if(currentBlockID < 0 )
+                    if (currentBlockID < 0)
                     {
                         currentBlockID = selectableBlocksTotal;
                     }
@@ -149,13 +144,13 @@ public class BuildSystem : MonoBehaviour
                 {
                     currentBlockID++;
 
-                    if(currentBlockID > selectableBlocksTotal)
+                    if (currentBlockID > selectableBlocksTotal)
                     {
                         currentBlockID = 0;
                     }
                 }
 
-                currentBlock =blockList[currentBlockID];
+                currentBlock = blockList[currentBlockID];
                 currentRend.sprite = Sprite.Create(currentBlock.itemIcon, new Rect(0, 0, currentBlock.itemIcon.width, currentBlock.itemIcon.height), new Vector2(0.5f, 0.5f));
             }
 
@@ -165,7 +160,7 @@ public class BuildSystem : MonoBehaviour
                 GameObject newBlock = new GameObject(currentBlock.itemName);
                 newBlock.transform.position = blockTemplate.transform.position;
                 SpriteRenderer newRend = newBlock.AddComponent<SpriteRenderer>();
-                newRend.sprite = Sprite.Create(currentBlock.itemIcon, new Rect(0, 0, currentBlock.itemIcon.width, currentBlock.itemIcon.height), new Vector2(0.5f,0.5f));
+                newRend.sprite = Sprite.Create(currentBlock.itemIcon, new Rect(0, 0, currentBlock.itemIcon.width, currentBlock.itemIcon.height), new Vector2(0.5f, 0.5f));
 
                 if (currentBlock.isSolid == true)
                 {
@@ -174,13 +169,13 @@ public class BuildSystem : MonoBehaviour
 
                     newBlock.AddComponent<BoxCollider2D>();
                     newBlock.layer = 9;
-                    newRend.sortingOrder = -10;
+                    newRend.sortingOrder = 2;
                 }
                 else
                 {
                     newBlock.AddComponent<BoxCollider2D>();
                     newBlock.layer = 10;
-                    newRend.sortingOrder = -15;
+                    newRend.sortingOrder = 1;
                 }
             }
 
@@ -188,7 +183,7 @@ public class BuildSystem : MonoBehaviour
             {
                 RaycastHit2D destroyHit = Physics2D.Raycast(blockTemplate.transform.position, Vector2.zero, Mathf.Infinity, allBlocksLayer);
 
-                if(destroyHit.collider != null)
+                if (destroyHit.collider != null)
                 {
                     Destroy(destroyHit.collider.gameObject);
 
@@ -197,11 +192,11 @@ public class BuildSystem : MonoBehaviour
                     newPickup.GetComponent<SpriteRenderer>().sprite = Sprite.Create(blockList[currentBlockID].itemIcon, new Rect(0, 0, blockList[currentBlockID].itemIcon.width, blockList[currentBlockID].itemIcon.height), new Vector2(0.5f, 0.5f));
                     newPickup.AddComponent<BoxCollider2D>().isTrigger = true;
                     newPickup.tag = "Pickup";
+                    newPickup.GetComponent<SpriteRenderer>().sortingOrder = 2;
                     newPickup.transform.position = new Vector2(newPosX, newPosY);
                 }
             }
 
         }
     }
-
 }

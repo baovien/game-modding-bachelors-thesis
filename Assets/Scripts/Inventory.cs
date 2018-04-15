@@ -11,6 +11,7 @@ public class Inventory : MonoBehaviour
 
 	private PlayerHealthManager playerHealthManager;
 	private ItemDatabase database;
+    private Crafting crafting;
 	private bool showInventory;
 	private bool showTooltip;
 	private string tooltip;
@@ -21,17 +22,15 @@ public class Inventory : MonoBehaviour
 	private bool isInventoryOpen;
 
     // Blocksystem and buildsystem references
-    private BlockSystem blockSys;
-    private BuildSystem buildSys;
+    // private BuildSystem buildSys;
 	
 	// Use this for initialization
 	void Start ()
 	{
 		playerHealthManager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealthManager>();
 		database = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
-
-        blockSys = GetComponent<BlockSystem>();
-        buildSys = GetComponent<BuildSystem>(); 
+        crafting = GameObject.FindGameObjectWithTag("Crafting").GetComponent<Crafting>();
+        // buildSys = GetComponent<BuildSystem>(); 
 
 		iconSize = 40;
 		
@@ -41,20 +40,8 @@ public class Inventory : MonoBehaviour
 			slots.Add(new Item());
 			inventory.Add(new Item());
 		}
-        inventory.Add(database.items[3]);	
-	}
-    // Check if the array contains any blocks
-    public bool CheckForBlocks()
-    {
-        bool isEmpty = true;
-        for (int i = 0; i < blockSys.allBlocks.Length; i++)
-        {
-            if (blockSys.allBlocks[i].amountInInventory > 0)
-            {
-                isEmpty = false;
-            }
-        }
-        return isEmpty;
+        AddItem(1);
+        AddItem(0);
     }
 
 	void Update()
@@ -63,6 +50,7 @@ public class Inventory : MonoBehaviour
 		{
 			showInventory = !showInventory;
 			isInventoryOpen = !isInventoryOpen;
+            crafting.CheckCrafting();
 			
 			if (draggingItem) {
 				inventory[prevIndex] = draggedItem;
@@ -221,15 +209,15 @@ public class Inventory : MonoBehaviour
 		}
 	}
 
-	bool InventoryContains(int id)
-	{
-		foreach(Item item in inventory){
-			if(item.itemID == id){ 
-				return true; 
-			}
-		}
-		return false; 
-	}
+         public bool InventoryContains(int id)
+	     {
+		        foreach(Item item in inventory){
+			        if(item.itemID == id){ 
+				        return true; 
+			        }
+		        }
+		        return false; 
+	     }
 	
 	void UseConsumable(Item item, int slot, bool deleteItem)
 	{
