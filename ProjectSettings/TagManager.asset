@@ -13,6 +13,9 @@ TagManager:
   - Wood
   - Pickup
   - Crafting
+  - Enemy
+  - Zombie
+  - Meat
   layers:
   - Default
   - TransparentFX

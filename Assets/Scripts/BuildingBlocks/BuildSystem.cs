@@ -99,7 +99,7 @@ public class BuildSystem : MonoBehaviour
             currentRend.sortingOrder = 2;
 
             RaycastHit2D rayHit;
-            if (currentBlock.isSolid == true)
+            if (currentBlock.isSolid)
             {
                 rayHit = Physics2D.Raycast(blockTemplate.transform.position, Vector2.zero, Mathf.Infinity, solidNoBuildLayer);
             }
