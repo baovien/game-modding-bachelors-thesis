@@ -55,7 +55,7 @@ public class Inventory : MonoBehaviour
         AddItem(1);
         AddItem(2);
         AddItem(3);
-        AddItem(4);
+        AddItem(5);
     }
 
     void Update()
@@ -387,6 +387,16 @@ public class Inventory : MonoBehaviour
                     break;
                 }
             }
+            
+            foreach (var item in hotBar)
+            {
+                if (item.itemID == id)
+                {
+                    itemToAdd.itemQuantity += 1;
+                    break;
+                }
+            }
+            
         }
         else
         {
