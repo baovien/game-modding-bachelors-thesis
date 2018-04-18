@@ -84,7 +84,7 @@ public class Inventory : MonoBehaviour
             }
         }
         
-        // Using scrollwheel to traverse the list of blocks. 
+        // Using scrollwheel to traverse the list of items in hotbar. 
         float mousewheel = Input.GetAxis("Mouse ScrollWheel");
         if (mousewheel != 0)
         {
@@ -473,7 +473,7 @@ public class Inventory : MonoBehaviour
             hotBar[slot] = new Item();
         }
     }
-
+    
     void SaveInventory()
     {
         for (int i = 0; i < inventory.Count; i++)
@@ -496,4 +496,10 @@ public class Inventory : MonoBehaviour
     {
         return isInventoryOpen;
     }
+
+    public Item GetSelectedItem()
+    {
+        return selectedItem;
+    }
+    
 }
