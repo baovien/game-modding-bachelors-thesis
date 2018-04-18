@@ -11,20 +11,6 @@ public abstract class Enemy : MonoBehaviour {
     private GameObject target;
     //public Animator anim;
 
-    void Start ()
-    {
-       
-    }
-	
-	void Update ()
-    {
-        if (hitPoints <= 0)
-        {
-            //gameObject.SetActive(false);
-            Debug.Log("IM DED XD");
-        }
-	}
-
     public GameObject GetTarget()
     {
         return target;

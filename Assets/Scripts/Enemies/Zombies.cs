@@ -9,6 +9,7 @@ public class Zombies : Enemy
     private bool attack;
     private Rigidbody2D myRigidBody2D;
     private PlayerHealthManager phm;
+    public GameObject pickableObject;
 
     // Use this for initialization
     void Start()
@@ -18,6 +19,8 @@ public class Zombies : Enemy
         SetAttackDamage(0);
         SethitPoints(50);
         SetMoveSpeed(1.5f);
+                
+        Debug.Log(pickableObject);
 
         attack = true;
     }
@@ -39,6 +42,13 @@ public class Zombies : Enemy
                 timer = 0;
             }
         }
+        
+        if (GetHitPoints() <= 0)
+        {
+            Destroy(gameObject);
+            var instaniatedPrefab = Instantiate(pickableObject, transform.position, transform.rotation);
+            instaniatedPrefab.transform.localScale = new Vector3(2, 2, transform.position.z); //Scales up the object
+        }
 
         if (Vector3.Distance(transform.position, GetTarget().transform.position) < 7f)
         {
@@ -48,10 +58,9 @@ public class Zombies : Enemy
             }
             else
             {
-                if (attack == true)
+                if (attack)
                 {
                     phm.HurtPlayer(GetAttackDamage());
-                    HurtEnemy(50);
                     attack = false;
                 }
             }

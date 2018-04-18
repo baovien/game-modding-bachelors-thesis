@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114937298999665600}
   m_Layer: 0
   m_Name: Zombies
-  m_TagString: Untagged
+  m_TagString: Zombie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37,8 +37,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1100474479740042}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.48, y: 1.1, z: -0.052734375}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -99,7 +99,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78936db81116b154e932853f113a7aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackSpeed: 0
+  attackSpeed: 2
+  pickableObject: {fileID: 1725997186331046, guid: fa46d41447a7d1e47bb2d9a83098c53e,
+    type: 2}
 --- !u!212 &212772481608357872
 SpriteRenderer:
   m_ObjectHideFlags: 1

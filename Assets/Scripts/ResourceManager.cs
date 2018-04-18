@@ -9,7 +9,6 @@ public class ResourceManager : MonoBehaviour
 	public int resourceToGive;
 	public GameObject pickableObject;
 	
-
 	private PlayerInventory _playerInventory;
 	
 	// Use this for initialization

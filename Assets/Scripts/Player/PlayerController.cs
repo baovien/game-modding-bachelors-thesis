@@ -80,17 +80,21 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("Attack", false);
         }
     }
-
+    
+//TODO: Rewrite this to a general solution, additionally layers
+    /*
+     * Pick up item and add to inventory
+     */
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Wood"))
         {
-            inventory.AddItem(1);
+            inventory.AddItem(2);
             Destroy(other.gameObject);
 
         } else if (other.gameObject.CompareTag("Stone"))
         {
-            inventory.AddItem(0);
+            inventory.AddItem(1);
             Destroy(other.gameObject);
 
         } else if (other.gameObject.CompareTag("Pickup"))

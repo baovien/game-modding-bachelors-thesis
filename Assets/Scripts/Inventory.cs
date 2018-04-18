@@ -8,13 +8,13 @@ public class Inventory : MonoBehaviour
     public int slotsX, slotsY;
     public List<Item> inventory = new List<Item>();
     public List<Item> slots = new List<Item>();
-    //static public List<Recipe> recipes = new List<Recipe>();
     public GUISkin skin;
     public List<string> craftable = new List<string>();
 
     private PlayerHealthManager playerHealthManager;
     private ItemDatabase database;
     private RecipeDatabase recipeDatabase;
+
     private bool showInventory;
     private bool showTooltip;
     private string tooltip;
@@ -44,7 +44,7 @@ public class Inventory : MonoBehaviour
     void Update()
     {
         // a crafting test
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Craft("Stoneblock");
         }
@@ -53,7 +53,7 @@ public class Inventory : MonoBehaviour
         {
             showInventory = !showInventory;
             isInventoryOpen = !isInventoryOpen;
-            
+
             // THIS SHOULD NOT BE DONE WHEN "INVENTORY" IS CLICKED >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             for (int i = 0; i < recipeDatabase.recipes.Count; i++)
             {
@@ -97,9 +97,9 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < recipeDatabase.recipes.Count; i++)
         {
-            if(recipeDatabase.recipes[i].itemName == item)
+            if (recipeDatabase.recipes[i].itemName == item)
             {
-                foreach(var mat in recipeDatabase.recipes[i].items.Keys)
+                foreach (var mat in recipeDatabase.recipes[i].items.Keys)
                 {
                     // mat is material, items[mat] is the amount
                     RemoveItem(mat, recipeDatabase.recipes[i].items[mat]);
@@ -110,46 +110,49 @@ public class Inventory : MonoBehaviour
     }
     bool CheckCraftable(string itemName)
     {
-        for(int i = 0; i < craftable.Count; i++)
+        for (int i = 0; i < craftable.Count; i++)
         {
-            if(craftable[i] == itemName)
+            if (craftable[i] == itemName)
             {
                 return true;
             }
         }
         return false;
     }
+
     //Unity method to draw in screen space
     void OnGUI()
     {
-        if (GUI.Button(new Rect(40, 400, 100, 40), "Save"))
-        {
-            SaveInventory();
-        }
-
-        if (GUI.Button(new Rect(40, 450, 100, 40), "Load"))
-        {
-            LoadInventory();
-        }
-
         tooltip = "";
         GUI.skin = skin;
 
         if (showInventory)
         {
             DrawInventory();
+
+            if (GUI.Button(new Rect(40, 450, 100, 40), "Save"))
+            {
+                SaveInventory();
+            }
+
+            if (GUI.Button(new Rect(40, 500, 100, 40), "Load"))
+            {
+                LoadInventory();
+            }
         }
 
         //Show tooltip when hovering over an item
         if (showTooltip && showInventory)
         {
-            GUI.Box(new Rect(Event.current.mousePosition.x + 15f, Event.current.mousePosition.y, 150, 150), tooltip, skin.GetStyle("Tooltip"));
+            GUI.Box(new Rect(Event.current.mousePosition.x + 15f, Event.current.mousePosition.y, 150, 150), tooltip,
+                skin.GetStyle("Tooltip"));
         }
 
         //Draw item when dragged
         if (draggingItem)
         {
-            GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, iconSize, iconSize), draggedItem.itemIcon);
+            GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, iconSize, iconSize),
+                draggedItem.itemIcon);
         }
 
         //Disables tooltip when inventory is closed
@@ -172,6 +175,7 @@ public class Inventory : MonoBehaviour
                 slots[i] = inventory[i];
                 Item item = slots[i];
 
+
                 if (item.itemName != null)
                 {
                     GUI.DrawTexture(slotRect, item.itemIcon);
@@ -180,53 +184,74 @@ public class Inventory : MonoBehaviour
                     if (slotRect.Contains(e.mousePosition))
                     {
 
-                        //Drag item
-                        if (e.button == 0 && e.type == EventType.MouseDrag && !draggingItem)
-                        {
-                            draggingItem = true;
-                            prevIndex = i;
-                            draggedItem = item;
-                            inventory[i] = new Item();
-                        }
 
-                        //Swap items position
-                        if (e.type == EventType.MouseUp && draggingItem)
+                        if (item.itemName != null && item.itemIcon != null)
                         {
-                            inventory[prevIndex] = inventory[i];
-                            inventory[i] = draggedItem;
-                            draggingItem = false;
-                            draggedItem = null;
-                        }
+                            GUI.DrawTexture(slotRect, item.itemIcon);
+                            GUI.Label(slotRect, item.itemQuantity.ToString()); //TODO: ITEMQUANT
 
-                        if (e.isMouse && e.type == EventType.MouseDown && e.button == 1)
-                        {
-                            if (item.itemType == Item.ItemType.Consumable)
+                            if (slotRect.Contains(e.mousePosition))
                             {
-                                UseConsumable(item, i, true);
+
+                                //Drag item
+                                if (e.button == 0 && e.type == EventType.MouseDrag && !draggingItem)
+                                {
+                                    draggingItem = true;
+                                    prevIndex = i;
+                                    draggedItem = item;
+                                    inventory[i] = new Item();
+                                }
+
+                                //Swap items position
+                                if (e.type == EventType.MouseUp && draggingItem)
+                                {
+                                    inventory[prevIndex] = inventory[i];
+                                    inventory[i] = draggedItem;
+                                    draggingItem = false;
+                                    draggedItem = null;
+                                }
+
+                                if (e.isMouse && e.type == EventType.MouseDown && e.button == 1)
+                                {
+                                    if (item.itemType == Item.ItemType.Consumable)
+                                    {
+                                        UseConsumable(item, i, true);
+                                    }
+                                }
+
+                                if (!draggingItem)
+                                {
+                                    tooltip = "<color=#ffffff><b>" + item.itemName + " </b> \n\n" + item.itemDesc + "</color>\n\n" + "Amount: " + item.itemQuantity;
+                                    //Show tooltip when not dragging
+                                    if (!draggingItem)
+                                    {
+                                        tooltip = "<color=#ffffff><b>" + item.itemName + " </b> \n\n" + item.itemDesc +
+                                                  "</color>\n\n" + "Amount: " + (item.itemQuantity); //TODO: ITEMQUANT
+                                        showTooltip = true;
+                                    }
+                                }
+                            }
+                            else
+                            {   // Allows to drag an item to an empty slot
+
+                                {
+                                    // Allows to drag an item to an empty slot
+                                    if (slotRect.Contains(e.mousePosition))
+                                    {
+                                        if (e.type == EventType.MouseUp && draggingItem)
+                                        {
+                                            inventory[i] = draggedItem;
+                                            draggingItem = false;
+                                            draggedItem = null;
+                                        }
+                                    }
+                                }
+
+                                i++;
                             }
                         }
-
-                        if (!draggingItem)
-                        {
-                            tooltip = "<color=#ffffff><b>" + item.itemName + " </b> \n\n" + item.itemDesc + "</color>\n\n" + "Amount: " + item.itemQuantity;
-                            showTooltip = true;
-                        }
                     }
                 }
-                else
-                {   // Allows to drag an item to an empty slot
-                    if (slotRect.Contains(e.mousePosition))
-                    {
-                        if (e.type == EventType.MouseUp && draggingItem)
-                        {
-                            inventory[i] = draggedItem;
-                            draggingItem = false;
-                            draggedItem = null;
-                        }
-                    }
-                }
-
-                i++;
             }
         }
     }
@@ -239,7 +264,7 @@ public class Inventory : MonoBehaviour
             if (inventory[i].itemName == itemName)
             {
                 // if the inventory contains more than amount needed to item should not be deleted, but rather decrease in quantity.
-                if(inventory[i].itemQuantity > amount)
+                if (inventory[i].itemQuantity > amount)
                 {
                     inventory[i].itemQuantity -= amount;
                     break;
@@ -253,6 +278,7 @@ public class Inventory : MonoBehaviour
             }
         }
     }
+
 
     public void AddItem(int id)
     {
@@ -289,7 +315,19 @@ public class Inventory : MonoBehaviour
             }
         }
         return false;
+    }
 
+    public int GetItemQuantity(int id)
+    {
+        foreach (Item item in inventory)
+        {
+            if (item.itemID == id)
+            {
+                return item.itemQuantity;
+            }
+        }
+
+        return 0;
     }
 
     void UseConsumable(Item item, int slot, bool deleteItem)
@@ -320,7 +358,9 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < inventory.Count; i++)
         {
-            inventory[i] = PlayerPrefs.GetInt("Inventory " + i, -1) >= 0 ? database.items[PlayerPrefs.GetInt("Inventory " + i)] : new Item();
+            inventory[i] = PlayerPrefs.GetInt("Inventory " + i, -1) >= 0
+                ? database.items[PlayerPrefs.GetInt("Inventory " + i)]
+                : new Item();
         }
     }
 
@@ -329,3 +369,4 @@ public class Inventory : MonoBehaviour
         return isInventoryOpen;
     }
 }
+
