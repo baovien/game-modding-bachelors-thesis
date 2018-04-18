@@ -13,6 +13,7 @@ TagManager:
   - Wood
   - Pickup
   - Crafting
+  - RecipeDatabase
   layers:
   - Default
   - TransparentFX

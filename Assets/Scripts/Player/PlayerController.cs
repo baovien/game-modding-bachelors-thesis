@@ -96,7 +96,6 @@ public class PlayerController : MonoBehaviour
         } else if (other.gameObject.CompareTag("Pickup"))
         {
             inventory.AddItem(3);
-            Debug.Log("HEAHAHAEHA");
             Destroy(other.gameObject);
         }
     }

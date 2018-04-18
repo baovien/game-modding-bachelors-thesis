@@ -15,7 +15,7 @@ public class Zombies : Enemy
     {
         SetTarget(GameObject.FindGameObjectWithTag("Player"));
         phm = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealthManager>();
-        SetAttackDamage(10);
+        SetAttackDamage(0);
         SethitPoints(50);
         SetMoveSpeed(1.5f);
 

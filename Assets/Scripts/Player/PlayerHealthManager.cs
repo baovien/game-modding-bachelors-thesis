@@ -58,7 +58,6 @@ public class PlayerHealthManager : MonoBehaviour {
     public void HurtPlayer(int damageToGive)
     {
         playerCurrentHealth -= damageToGive;
-        Debug.Log("AU DET SVIR");
         flashActive = true;
         flashCounter = flashLength;
         //sfxMan.playerHurt.Play();
