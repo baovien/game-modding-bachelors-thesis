@@ -31,6 +31,7 @@ public class Inventory : MonoBehaviour
         database = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
         recipeDatabase = GameObject.FindGameObjectWithTag("RecipeDatabase").GetComponent<RecipeDatabase>();
         iconSize = 40;
+
         // Fill the slots list with empty items.
         for (int i = 0; i < slotsX * slotsY; i++)
         {
@@ -175,7 +176,6 @@ public class Inventory : MonoBehaviour
                 slots[i] = inventory[i];
                 Item item = slots[i];
 
-
                 if (item.itemName != null)
                 {
                     GUI.DrawTexture(slotRect, item.itemIcon);
@@ -252,9 +252,68 @@ public class Inventory : MonoBehaviour
                         }
                     }
                 }
+                if (item.itemName != null && item.itemIcon != null)
+                {
+                    GUI.DrawTexture(slotRect, item.itemIcon);
+                    GUI.Label(slotRect, item.itemQuantity.ToString()); //TODO: ITEMQUANT
+
+                    if (slotRect.Contains(e.mousePosition))
+                    {
+                        //Drag item
+                        if (e.button == 0 && e.type == EventType.MouseDrag && !draggingItem)
+                        {
+                            draggingItem = true;
+                            prevIndex = i;
+                            draggedItem = item;
+                            inventory[i] = new Item();
+                        }
+
+                        //Swap items position
+                        if (e.type == EventType.MouseUp && draggingItem)
+                        {
+                            inventory[prevIndex] = inventory[i];
+                            inventory[i] = draggedItem;
+                            draggingItem = false;
+                            draggedItem = null;
+                        }
+
+                        //Use consumable
+                        if (e.isMouse && e.type == EventType.MouseDown && e.button == 1)
+                        {
+                            if (item.itemType == Item.ItemType.Consumable)
+                            {
+                                UseConsumable(item, i, true);
+                            }
+                        }
+
+                        //Show tooltip when not dragging
+                        if (!draggingItem)
+                        {
+                            tooltip = "<color=#ffffff><b>" + item.itemName + " </b> \n\n" + item.itemDesc +
+                                      "</color>\n\n" + "Amount: " + (item.itemQuantity); //TODO: ITEMQUANT
+                            showTooltip = true;
+                        }
+                    }
+                }
+                else
+                {
+                    // Allows to drag an item to an empty slot
+                    if (slotRect.Contains(e.mousePosition))
+                    {
+                        if (e.type == EventType.MouseUp && draggingItem)
+                        {
+                            inventory[i] = draggedItem;
+                            draggingItem = false;
+                            draggedItem = null;
+                        }
+                    }
+                }
+
+                i++;
             }
         }
     }
+
 
     // RemoveItem, item name and the amount to delete.
     void RemoveItem(string itemName, int amount)
@@ -278,7 +337,6 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-
 
     public void AddItem(int id)
     {
@@ -317,6 +375,7 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
+    // NOT USED?
     public int GetItemQuantity(int id)
     {
         foreach (Item item in inventory)
@@ -369,4 +428,3 @@ public class Inventory : MonoBehaviour
         return isInventoryOpen;
     }
 }
-

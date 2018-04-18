@@ -101,6 +101,11 @@ public class PlayerController : MonoBehaviour
         {
             inventory.AddItem(3);
             Destroy(other.gameObject);
+            
+        } else if (other.gameObject.CompareTag("Meat"))
+        {
+            inventory.AddItem(0);
+            Destroy(other.gameObject);
         }
     }
 }

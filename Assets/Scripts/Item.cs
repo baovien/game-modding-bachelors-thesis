@@ -31,7 +31,7 @@ public class Item
         itemID = -1;
     }
 
-    public Item(string name, int id, string desc, ItemType type, bool stackable, List<int> recipe)
+    public Item(string name, int id, string desc, ItemType type, bool stackable)
     {
         itemName = name;
         itemID = id;
@@ -40,10 +40,9 @@ public class Item
         itemIcon = Resources.Load<Texture2D>("ItemIcons/" + name);
         isStackable = stackable;
         itemQuantity = 1; //TODO: Tell heller inventory for matchende ID. 
-        this.recipe = recipe;
     }
 
-    public Item(string myName, int id, ItemType type, bool amISolid, bool stackable, List<int> recipe)
+    public Item(string myName, int id, ItemType type, bool amISolid, bool stackable)
     {
         itemID = id;
         itemName = myName;
@@ -52,6 +51,6 @@ public class Item
         isSolid = amISolid;
         isStackable = stackable;
         itemQuantity = 1;
-        this.recipe = recipe;
     }
 }
+
