@@ -9,21 +9,17 @@ public class ResourceManager : MonoBehaviour
 	public int resourceToGive;
 	public GameObject pickableObject;
 	
-	private PlayerInventory _playerInventory;
 	
 	// Use this for initialization
 	void Start ()
 	{
 		currentHealth = maxHealth;
-		_playerInventory = FindObjectOfType<PlayerInventory>();
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
 		if (currentHealth <= 0)
-		{
-			_playerInventory.AddResource(gameObject.tag, resourceToGive);
-			
+		{			
 			//Instantiate pickable gameobject after harvesting resource
 			var instaniatedPrefab = Instantiate(pickableObject, transform.position, transform.rotation);
 			instaniatedPrefab.transform.localScale = new Vector3(2, 2, transform.position.z); //Scales up the object

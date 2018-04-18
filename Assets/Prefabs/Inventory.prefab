@@ -53,6 +53,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotsX: 5
   slotsY: 4
+  hotbarX: 5
+  hotBar: []
+  hotBarSlots: []
   inventory: []
   slots: []
   skin: {fileID: 11400000, guid: 3e791d8fb21d342429a51b84b077ed16, type: 2}

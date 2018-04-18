@@ -24,4 +24,9 @@ public class ItemDatabase : MonoBehaviour
 
         return recipe;
     }
+
+    public Item FetchItemByID(int id)
+    {
+        return items[id];
+    }
 }

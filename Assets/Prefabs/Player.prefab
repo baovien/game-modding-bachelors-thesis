@@ -26,7 +26,6 @@ GameObject:
   - component: {fileID: 114486040217652384}
   - component: {fileID: 114483112106209774}
   - component: {fileID: 114552151734303792}
-  - component: {fileID: 114721855004157182}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -206,19 +205,6 @@ MonoBehaviour:
   playerMaxHealth: 100
   playerCurrentHealth: 0
   flashLength: 0
---- !u!114 &114721855004157182
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1097876165727974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 052651f25b8e4a81976088e154e7b008, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wood: 0
-  stone: 0
 --- !u!114 &114790032697536308
 MonoBehaviour:
   m_ObjectHideFlags: 1
