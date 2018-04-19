@@ -31,10 +31,10 @@ public class CameraController : MonoBehaviour
             Destroy(gameObject);
         }
 
+        theCamera = GetComponent<Camera>();
 
         minBounds = boundBox.bounds.min;
         maxBounds = boundBox.bounds.max;
-        theCamera = GetComponent<Camera>();
         halfHeight = theCamera.orthographicSize;
         halfWidth = halfHeight * Screen.width / Screen.height;
     }

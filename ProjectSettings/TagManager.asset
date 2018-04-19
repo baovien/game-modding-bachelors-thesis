@@ -13,6 +13,10 @@ TagManager:
   - Wood
   - Pickup
   - Crafting
+  - Enemy
+  - Zombie
+  - Meat
+  - PlayerHandSlot
   - RecipeDatabase
   layers:
   - Default
