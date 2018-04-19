@@ -17,9 +17,12 @@ public class ItemDatabase : MonoBehaviour
         items.Add(new Item("Woodblock", 3, Item.ItemType.Block, true, true, CreateRecipe(2, 2)));
         items.Add(new Item("Stoneblock", 4, Item.ItemType.Block, true, true, CreateRecipe(1, 2)));
         
-        //Tools
+        //Tools and Weapons
         
-        items.Add(new Item("Sword", 5, "swerd", Item.ItemType.Weapon, false, CreateRecipe(0,0), 50));
+        items.Add(new Item("Sword", 5, "swerd", Item.ItemType.Weapon, false, CreateRecipe(0,0), attackdmg: 5));
+        items.Add(new Item("Pickaxe", 6, "hakke", Item.ItemType.Tool, false, CreateRecipe(0,0), gatherdmg: 5));
+        items.Add(new Item("Axe", 7, "øks", Item.ItemType.Tool, false, CreateRecipe(0,0), gatherdmg: 5));
+
     }
 
     List<int> CreateRecipe(int id1, int amount1, int id2 = 0, int amount2 = 0)

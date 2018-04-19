@@ -38,6 +38,7 @@ public class Inventory : MonoBehaviour
         // buildSys = GetComponent<BuildSystem>(); 
 
         iconSize = 40;
+        selectedItemID = 0;
 
         // Fill the slots list with empty items.
         for (int i = 0; i < slotsX * slotsY; i++)
@@ -54,8 +55,9 @@ public class Inventory : MonoBehaviour
         AddItem(0);
         AddItem(1);
         AddItem(2);
-        AddItem(3);
+        AddItem(6);
         AddItem(5);
+        AddItem(7);
     }
 
     void Update()
@@ -108,6 +110,33 @@ public class Inventory : MonoBehaviour
                 }
             }
 
+            selectedItem = hotBar[selectedItemID];
+            Debug.Log("Selected item: " + selectedItem.itemName);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            selectedItemID = 0;
+            selectedItem = hotBar[selectedItemID];
+            Debug.Log("Selected item: " + selectedItem.itemName);
+        }else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            selectedItemID = 1;
+            selectedItem = hotBar[selectedItemID];
+            Debug.Log("Selected item: " + selectedItem.itemName);
+        }else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            selectedItemID = 2;    
+            selectedItem = hotBar[selectedItemID];
+            Debug.Log("Selected item: " + selectedItem.itemName);
+        }else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            selectedItemID = 3;    
+            selectedItem = hotBar[selectedItemID];
+            Debug.Log("Selected item: " + selectedItem.itemName);
+        }else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            selectedItemID = 4;  
             selectedItem = hotBar[selectedItemID];
             Debug.Log("Selected item: " + selectedItem.itemName);
         }
@@ -387,7 +416,8 @@ public class Inventory : MonoBehaviour
                     break;
                 }
             }
-            
+        }else if (itemToAdd.isStackable && HotBarContains(itemToAdd.itemID))
+        {
             foreach (var item in hotBar)
             {
                 if (item.itemID == id)
@@ -396,13 +426,11 @@ public class Inventory : MonoBehaviour
                     break;
                 }
             }
-            
         }
         else
-        {
+        {    //Find empty inventory space
             for (int i = 0; i < inventory.Count; i++)
             {
-                //Find empty inventory space
                 if (inventory[i].itemID == -1)
                 {
                     itemToAdd.itemQuantity = 1;
@@ -443,6 +471,19 @@ public class Inventory : MonoBehaviour
     public bool InventoryContains(int id)
     {
         foreach (Item item in inventory)
+        {
+            if (item.itemID == id)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    public bool HotBarContains(int id)
+    {
+        foreach (Item item in hotBar)
         {
             if (item.itemID == id)
             {

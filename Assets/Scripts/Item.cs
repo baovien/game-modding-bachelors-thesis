@@ -31,9 +31,11 @@ public class Item
     public Item()
     {
         itemID = -1;
+        attackDamage = 1;
+        gatherDamage = 1;
     }
 
-    public Item(string name, int id, string desc, ItemType type, bool stackable, List<int> recipe, int damage = 1, int gatherdmg = 1)
+    public Item(string name, int id, string desc, ItemType type, bool stackable, List<int> recipe, int attackdmg = 1, int gatherdmg = 1)
     {
         itemName = name;
         itemID = id;
@@ -43,11 +45,11 @@ public class Item
         isStackable = stackable;
         itemQuantity = 1; //TODO: Tell heller inventory for matchende ID. 
         this.recipe = recipe;
-        attackDamage = damage;
+        attackDamage = attackdmg;
         gatherDamage = gatherdmg;
     }
 
-    public Item(string myName, int id, ItemType type, bool amISolid, bool stackable, List<int> recipe, int damage = 1, int gatherdmg = 1)
+    public Item(string myName, int id, ItemType type, bool amISolid, bool stackable, List<int> recipe, int attackdmg = 1, int gatherdmg = 1)
     {
         itemID = id;
         itemName = myName;
@@ -57,7 +59,7 @@ public class Item
         isStackable = stackable;
         itemQuantity = 1;
         this.recipe = recipe;
-        attackDamage = damage;
+        attackDamage = attackdmg;
         gatherDamage = gatherdmg;
     }
 }

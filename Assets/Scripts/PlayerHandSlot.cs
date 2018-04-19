@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerHandSlot : MonoBehaviour
 {
 
-	public int damageToGive;
 	private BoxCollider2D boxCollider;
 	private SpriteRenderer spriteRenderer;
 	private Inventory inventory;
@@ -37,7 +36,7 @@ public class PlayerHandSlot : MonoBehaviour
 	{
 		if (other.gameObject.CompareTag("Tree") || other.gameObject.CompareTag("Rock"))
 		{
-			other.gameObject.GetComponent<ResourceManager>().HarvestResource(damageToGive);
+			other.gameObject.GetComponent<ResourceManager>().HarvestResource(selectedItem.gatherDamage);
 		}
 
 		if (other.gameObject.CompareTag("Zombie"))
