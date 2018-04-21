@@ -57,6 +57,10 @@ public class Inventory : MonoBehaviour
         }
         AddItem(0);
         AddItem(1);
+        AddItem(0);
+        AddItem(1);
+        AddItem(0);
+        AddItem(1);
         AddItem(2);
         AddItem(6);
         AddItem(5);
@@ -369,7 +373,7 @@ public class Inventory : MonoBehaviour
         {
             if (inventory[i].itemName == itemName)
             {
-                // if the inventory contains more than amount needed to item should not be deleted, but rather decrease in quantity.
+                // if the inventory contains more than amount needed the item should not be deleted, but rather decrease in quantity.
                 if (inventory[i].itemQuantity > amount)
                 {
                     inventory[i].itemQuantity -= amount;
@@ -385,6 +389,8 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
+        //After an item is added/removed we need to UpdateCraftable again.
+        UpdateCraftable();
     }
 
     public void AddItem(int id)
@@ -428,6 +434,8 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
+        //After an item is added/removed we need to check craftable again.
+        UpdateCraftable();
     }
 
     public bool InventoryContains(string material, int requiredAmount)
@@ -506,9 +514,9 @@ public class Inventory : MonoBehaviour
     // When the player craft the item we need to do something ...
     public void Craft(string item)
     {
-        for (int i = 0; i < recipeDatabase.recipes.Count; i++)
+        for (int i = 0; i < craftable.Count; i++)
         {
-            if (recipeDatabase.recipes[i].itemName == item)
+            if (craftable[i] == item)
             {
                 foreach (var mat in recipeDatabase.recipes[i].items.Keys)
                 {
@@ -531,6 +539,10 @@ public class Inventory : MonoBehaviour
                 {
                     //if one of the materials are missing the item can not be crafted, set false for that recipe.                   
                     canCraft = false;
+                    if (CheckCraftable(recipeDatabase.recipes[i].itemName))
+                    {
+                        craftable.Remove(recipeDatabase.recipes[i].itemName);
+                    }
                 }
             }
             if (canCraft)
