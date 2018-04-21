@@ -18,6 +18,8 @@ TagManager:
   - Meat
   - PlayerHandSlot
   - RecipeDatabase
+  - CraftingScrollList
+  - CraftingWindow
   layers:
   - Default
   - TransparentFX

@@ -24,17 +24,20 @@ public class PlayerHandSlot : MonoBehaviour
 	{
 		selectedItem = inventory.GetSelectedItem();
 
-		if (selectedItem.itemID != -1)
+		if (selectedItem != null)
 		{
-			spriteRenderer.sprite = Sprite.Create(selectedItem.itemIcon, new Rect(0, 0, selectedItem.itemIcon.width, selectedItem.itemIcon.height), new Vector2(0.5f, 0.5f));
-			boxCollider.size = new Vector2(spriteRenderer.bounds.size.x / transform.lossyScale.x, spriteRenderer.bounds.size.y / transform.lossyScale.y);
-			boxCollider.offset = Vector2.zero;
-
-		}
-		else
-		{
-			boxCollider.size = new Vector2(.03f, .03f);
-			boxCollider.offset = new Vector2(-0.05f, -0.05f);
+			if (selectedItem.itemID != -1)
+			{
+				spriteRenderer.sprite = Sprite.Create(selectedItem.itemIcon, new Rect(0, 0, selectedItem.itemIcon.width, selectedItem.itemIcon.height), new Vector2(0.5f, 0.5f));
+				boxCollider.size = new Vector2(spriteRenderer.bounds.size.x / transform.lossyScale.x, spriteRenderer.bounds.size.y / transform.lossyScale.y);
+				boxCollider.offset = Vector2.zero;
+	
+			}
+			else
+			{
+				boxCollider.size = new Vector2(.03f, .03f);
+				boxCollider.offset = new Vector2(-0.05f, -0.05f);
+			}
 		}
 	}
 

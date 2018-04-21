@@ -17,6 +17,7 @@ public class Inventory : MonoBehaviour
     private PlayerHealthManager playerHealthManager;
     private ItemDatabase database;
     private RecipeDatabase recipeDatabase;
+    private CraftingScrollList craftingScrollList;
 
     private bool showInventory;
     private bool showTooltip;
@@ -37,6 +38,7 @@ public class Inventory : MonoBehaviour
         playerHealthManager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealthManager>();
         database = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
         recipeDatabase = GameObject.FindGameObjectWithTag("RecipeDatabase").GetComponent<RecipeDatabase>();
+        craftingScrollList = GameObject.FindGameObjectWithTag("CraftingScrollList").GetComponent<CraftingScrollList>();
         
         iconSize = 40;
         selectedItemID = 0;
@@ -64,44 +66,15 @@ public class Inventory : MonoBehaviour
     void Update()
     {
         // a crafting test
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Craft("Stoneblock");
-        }
+                 if (Input.GetKeyDown(KeyCode.Space))
+                 {
+                     Craft("Stoneblock");
+                 }
 
         if (Input.GetButtonDown("Inventory"))
         {
             showInventory = !showInventory;
             isInventoryOpen = !isInventoryOpen;
-
-            // THIS SHOULD NOT BE DONE WHEN "INVENTORY" IS CLICKED >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-            for (int i = 0; i < recipeDatabase.recipes.Count; i++)
-            {
-                bool canCraft = true;
-                foreach (var mat in recipeDatabase.recipes[i].items.Keys)
-                {
-                    if (!InventoryContains(mat, recipeDatabase.recipes[i].items[mat]))
-                    {
-                        //if one of the materials are missing the item can not be crafted, set false for that recipe.                   
-                        canCraft = false;
-                    }
-                }
-                if (canCraft)
-                {
-                    // If something is craftable, add it to the list containing items we can craft.
-                    if (!CheckCraftable(recipeDatabase.recipes[i].itemName))
-                    {
-                        craftable.Add(recipeDatabase.recipes[i].itemName);
-                        Debug.Log(recipeDatabase.recipes[i].itemName + " is craftable!");
-                    }
-                    else
-                    {
-                        Debug.Log("An item is craftable but is already ready in the craftable list");
-                    }
-                }
-            }
-            // THIS SHOULD NOT BE DONE WHEN "INVENTORY" IS CLICKED >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> /
-
 
             if (draggingItem)
             {
@@ -400,12 +373,14 @@ public class Inventory : MonoBehaviour
                 if (inventory[i].itemQuantity > amount)
                 {
                     inventory[i].itemQuantity -= amount;
+                    UpdateCraftable();
                     break;
                 }
                 // every other situation the item needs to be removed from inventory. Adding a empty item in its place.
                 else
                 {
                     inventory[i] = new Item();
+                    UpdateCraftable();
                     break;
                 }
             }
@@ -415,7 +390,7 @@ public class Inventory : MonoBehaviour
     public void AddItem(int id)
     {
         Item itemToAdd = database.FetchItemByID(id);
-
+        
         if (itemToAdd.isStackable && InventoryContains(itemToAdd.itemID))
         {
             foreach (var item in inventory)
@@ -423,6 +398,7 @@ public class Inventory : MonoBehaviour
                 if (item.itemID == id)
                 {
                     itemToAdd.itemQuantity += 1;
+                    UpdateCraftable();
                     break;
                 }
             }
@@ -445,37 +421,13 @@ public class Inventory : MonoBehaviour
                 {
                     itemToAdd.itemQuantity = 1;
                     inventory[i] = itemToAdd;
+                    UpdateCraftable();
                     //inventory[i].itemQuantity = 1; //TODO: Itemquantity varierer noen ganger. Feature or bug?
 
                     break;
                 }
             }
         }
-
-        /*
-        for (int i = 0; i < inventory.Count; i++)
-        {
-            if (inventory[i].itemID == id && inventory[i].isStackable)
-            {
-                database.items[id].itemQuantity += 1;
-                break;
-            }
-
-            //Find empty inventory space
-            if (inventory[i].itemName == null)
-            {
-                for (int j = 0; j < database.items.Count; j++)
-                {
-                    if (database.items[j].itemID == id)
-                    {
-                        inventory[i] = database.items[j];
-                    }
-                }
-
-                break;
-            }
-        }
-        */
     }
 
     public bool InventoryContains(string material, int requiredAmount)
@@ -562,13 +514,45 @@ public class Inventory : MonoBehaviour
                 {
                     // mat is material, items[mat] is the amount
                     RemoveItem(mat, recipeDatabase.recipes[i].items[mat]);
-                    Debug.Log(recipeDatabase.recipes[i].items[mat]);
+                    //Debug.Log(recipeDatabase.recipes[i].items[mat]);
+                }
+            }
+        }
+    }
+
+    void UpdateCraftable()
+    {
+        for (int i = 0; i < recipeDatabase.recipes.Count; i++)
+        {
+            bool canCraft = true;
+            foreach (var mat in recipeDatabase.recipes[i].items.Keys)
+            {
+                if (!InventoryContains(mat, recipeDatabase.recipes[i].items[mat]))
+                {
+                    //if one of the materials are missing the item can not be crafted, set false for that recipe.                   
+                    canCraft = false;
+                }
+            }
+            if (canCraft)
+            {
+                // If something is craftable, add it to the list containing items we can craft.
+                if (!CheckCraftable(recipeDatabase.recipes[i].itemName))
+                {
+                    craftable.Add(recipeDatabase.recipes[i].itemName);
+                    Debug.Log(recipeDatabase.recipes[i].itemName + " is craftable!");
+                        
+                    //Refresh craftingwindow to show new craftables
+                    craftingScrollList.RefreshDisplay();
+                }
+                else
+                {
+                    Debug.Log("An item is craftable but is already ready in the craftable list");
                 }
             }
         }
     }
     
-    bool CheckCraftable(string itemName)
+    public bool CheckCraftable(string itemName)
     {
         for (int i = 0; i < craftable.Count; i++)
         {
