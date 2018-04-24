@@ -17,17 +17,21 @@ public class CraftingScrollList : MonoBehaviour
 	{
 		itemDatabase = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
 		inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
-		
 		RefreshDisplay();
 	}
-
+	
+	/**
+	 * Refreshes the craftables scroll list. 
+	 */
 	public void RefreshDisplay()
 	{
 		RemoveButtons();
 		AddButtons();
-		Debug.Log("refresh");
 	}
 
+	/**
+	 * Removes all child members of the contenPanel in craftingScrollList
+	 */
 	private void RemoveButtons()
 	{
 		while (contentPanel.childCount > 0) 
@@ -37,8 +41,12 @@ public class CraftingScrollList : MonoBehaviour
 		}
 	}
 	
+	/**
+	 * Add button for every craftable items available.
+	 */
 	private void AddButtons()
 	{
+		//Iterating through to get the craftable item's values for making the button.
 		for (int i = 0; i < inventory.craftable.Count; i++)
 		{
 			for (int j = 0; j < itemDatabase.items.Count; j++)

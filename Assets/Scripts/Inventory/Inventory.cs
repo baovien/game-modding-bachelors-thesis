@@ -41,7 +41,7 @@ public class Inventory : MonoBehaviour
         craftingScrollList = GameObject.FindGameObjectWithTag("CraftingScrollList").GetComponent<CraftingScrollList>();
         
         iconSize = 40;
-        selectedItemID = 0;
+        selectedItem = new Item();
 
         // Fill the slots list with empty items.
         for (int i = 0; i < slotsX * slotsY; i++)
@@ -55,25 +55,17 @@ public class Inventory : MonoBehaviour
             hotBarSlots.Add(new Item());
             hotBar.Add(new Item());
         }
-        AddItem(0);
-        AddItem(1);
-        AddItem(0);
-        AddItem(1);
-        AddItem(0);
-        AddItem(1);
-        AddItem(2);
-        AddItem(6);
-        AddItem(5);
-        AddItem(7);
+        
+
     }
 
     void Update()
     {
         // a crafting test
-                 if (Input.GetKeyDown(KeyCode.Space))
-                 {
-                     Craft("Stoneblock");
-                 }
+         if (Input.GetKeyDown(KeyCode.Space))
+         {
+             Craft("Stoneblock");
+         }
 
         if (Input.GetButtonDown("Inventory"))
         {
@@ -124,34 +116,28 @@ public class Inventory : MonoBehaviour
             }
 
             selectedItem = hotBar[selectedItemID];
-            Debug.Log("Selected item: " + selectedItem.itemName);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             selectedItemID = 0;
             selectedItem = hotBar[selectedItemID];
-            Debug.Log("Selected item: " + selectedItem.itemName);
         }else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             selectedItemID = 1;
             selectedItem = hotBar[selectedItemID];
-            Debug.Log("Selected item: " + selectedItem.itemName);
         }else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             selectedItemID = 2;    
             selectedItem = hotBar[selectedItemID];
-            Debug.Log("Selected item: " + selectedItem.itemName);
         }else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             selectedItemID = 3;    
             selectedItem = hotBar[selectedItemID];
-            Debug.Log("Selected item: " + selectedItem.itemName);
         }else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             selectedItemID = 4;  
             selectedItem = hotBar[selectedItemID];
-            Debug.Log("Selected item: " + selectedItem.itemName);
         }
         
     }
@@ -522,7 +508,7 @@ public class Inventory : MonoBehaviour
                 {
                     // mat is material, items[mat] is the amount
                     RemoveItem(mat, recipeDatabase.recipes[i].items[mat]);
-                    //Debug.Log(recipeDatabase.recipes[i].items[mat]);
+                    Debug.Log("Add:"  + craftable[i]);
                 }
             }
         }
@@ -558,7 +544,7 @@ public class Inventory : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("An item is craftable but is already ready in the craftable list");
+                    //Debug.Log("An item is craftable but is already ready in the craftable list");
                 }
             }
         }
@@ -576,9 +562,11 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
-    public Item GetSelectedItem()
+    public Item SelectedItem
     {
-        return selectedItem;
+        get { return selectedItem; }
+
+        set { selectedItem = value; }
     }
     
 }

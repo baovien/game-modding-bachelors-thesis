@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114540179178498828}
   - component: {fileID: 114088525455273348}
   - component: {fileID: 114171029182146986}
-  - component: {fileID: 114529905914561192}
+  - component: {fileID: 114348967416479520}
   m_Layer: 5
   m_Name: CraftableItemBtn
   m_TagString: Untagged
@@ -91,7 +91,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114529905914561192
+--- !u!114 &114348967416479520
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1545205033320218}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a3166d0ecac55847aad346850ba420d, type: 3}
+  m_Script: {fileID: 11500000, guid: fa6af1c612ae41d47ac7b3e71494a450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   buttonComponent: {fileID: 114088525455273348}

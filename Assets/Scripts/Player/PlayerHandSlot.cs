@@ -22,7 +22,7 @@ public class PlayerHandSlot : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		selectedItem = inventory.GetSelectedItem();
+		selectedItem = inventory.SelectedItem;
 
 		if (selectedItem != null)
 		{

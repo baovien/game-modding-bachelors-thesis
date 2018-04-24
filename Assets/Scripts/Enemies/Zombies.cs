@@ -20,8 +20,6 @@ public class Zombies : Enemy
         SethitPoints(50);
         SetMoveSpeed(1.5f);
                 
-        Debug.Log(pickableObject);
-
         attack = true;
     }
 
