@@ -1659,8 +1659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contentPanel: {fileID: 224719758528623388}
-  buttonObjectPool: {fileID: 114576567389768400, guid: 769e4d8a63fae964197281928a5c4948,
-    type: 2}
+  buttonObjectPool: {fileID: 0}
 --- !u!114 &114806067511750736
 MonoBehaviour:
   m_ObjectHideFlags: 1
