@@ -28,6 +28,9 @@ public class Item
         Armor //Headgear, chest, leggings?
     }
 
+    /**
+     * Item constructor when an empty item is needed.
+     * */
     public Item()
     {
         itemID = -1;
@@ -35,29 +38,23 @@ public class Item
         gatherDamage = 1;
     }
 
-    public Item(string name, int id, string desc, ItemType type, bool stackable, int attackdmg = 1, int gatherdmg = 1)
+    /**
+     * Constructor for Items, Give the item a name, id, description. The Item type of your item can be found in the item.cs enum. Add a new type if needed. 
+     * bool stackable is used to make the item(s) stack in inventory, the bool amISolid is used for when the item(s) is placed on the ground, solid blocks stops the player.
+     * The attack dmg and gatherdmg is used for the item(s) damage on enemies and when gathering resources.
+     **/
+    public Item(string name, int id, string desc, ItemType type, bool stackable, bool amISolid, int attackdmg = 1, int gatherdmg = 1)
     {
         itemName = name;
         itemID = id;
         itemDesc = desc;
         itemType = type;
-        itemIcon = Resources.Load<Texture2D>("ItemIcons/" + name);
         isStackable = stackable;
-        itemQuantity = 1; //TODO: Tell heller inventory for matchende ID. 
-        attackDamage = attackdmg;
-        gatherDamage = gatherdmg;
-    }
-
-    public Item(string myName, int id, ItemType type, bool amISolid, bool stackable, int attackdmg = 1, int gatherdmg = 1)
-    {
-        itemID = id;
-        itemName = myName;
-        itemIcon = Resources.Load<Texture2D>("ItemIcons/" + myName);
-        itemType = type;
         isSolid = amISolid;
-        isStackable = stackable;
-        itemQuantity = 1;
         attackDamage = attackdmg;
         gatherDamage = gatherdmg;
+
+        itemIcon = Resources.Load<Texture2D>("ItemIcons/" + name);
+        itemQuantity = 1; //TODO: Tell heller inventory for matchende ID. 
     }
 }
