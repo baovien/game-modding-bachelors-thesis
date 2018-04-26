@@ -52,7 +52,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea991535a9e91b54883803697ae90023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  craftWindow: {fileID: 0}
 --- !u!114 &114543568862968510
 MonoBehaviour:
   m_ObjectHideFlags: 1

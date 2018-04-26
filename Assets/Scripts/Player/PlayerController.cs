@@ -87,6 +87,11 @@ public class PlayerController : MonoBehaviour
      */
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.CompareTag("PlayerHand"))
+        {
+            return;
+        }
+        
         if (other.gameObject.CompareTag("Wood"))
         {
             inventory.AddItem(2);

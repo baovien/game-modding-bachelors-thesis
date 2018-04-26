@@ -5,8 +5,7 @@ using System.Linq;
 
 public class Inventory : MonoBehaviour
 {
-    public int slotsX, slotsY;
-    public int hotbarX;
+    public int slotsX, slotsY, hotbarX;
     public List<Item> hotBar = new List<Item>();
     public List<Item> hotBarSlots = new List<Item>();
     public List<Item> inventory = new List<Item>();
@@ -31,6 +30,8 @@ public class Inventory : MonoBehaviour
     private int selectableItemsTotal;
     private int selectedItemID;
     private Item selectedItem;
+    
+    
 
     // Use this for initialization
     void Start()
@@ -39,9 +40,10 @@ public class Inventory : MonoBehaviour
         database = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
         recipeDatabase = GameObject.FindGameObjectWithTag("RecipeDatabase").GetComponent<RecipeDatabase>();
         craftingScrollList = GameObject.FindGameObjectWithTag("CraftingScrollList").GetComponent<CraftingScrollList>();
-        
+
+
         iconSize = 40;
-        selectedItem = new Item();
+        SelectedItem = new Item();
 
         // Fill the slots list with empty items.
         for (int i = 0; i < slotsX * slotsY; i++)
@@ -63,7 +65,7 @@ public class Inventory : MonoBehaviour
     {
         // a crafting test
          if (Input.GetKeyDown(KeyCode.Space))
-         {
+         {             
              Craft("Stoneblock");
          }
 
@@ -81,13 +83,13 @@ public class Inventory : MonoBehaviour
         }
         
         // No current item
-        if (selectedItem == null)
+        if (SelectedItem == null)
         {
             // ensure hotbar list is ready
             if (hotBar[selectedItemID] != null)
             {
                 // Get a new selcted item using ID
-                selectedItem = hotBar[selectedItemID];
+                SelectedItem = hotBar[selectedItemID];
             }
         }
         
@@ -115,29 +117,29 @@ public class Inventory : MonoBehaviour
                 }
             }
 
-            selectedItem = hotBar[selectedItemID];
+            SelectedItem = hotBar[selectedItemID];
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             selectedItemID = 0;
-            selectedItem = hotBar[selectedItemID];
+            SelectedItem = hotBar[selectedItemID];
         }else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             selectedItemID = 1;
-            selectedItem = hotBar[selectedItemID];
+            SelectedItem = hotBar[selectedItemID];
         }else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             selectedItemID = 2;    
-            selectedItem = hotBar[selectedItemID];
+            SelectedItem = hotBar[selectedItemID];
         }else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             selectedItemID = 3;    
-            selectedItem = hotBar[selectedItemID];
+            SelectedItem = hotBar[selectedItemID];
         }else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             selectedItemID = 4;  
-            selectedItem = hotBar[selectedItemID];
+            SelectedItem = hotBar[selectedItemID];
         }
         
     }
@@ -145,6 +147,7 @@ public class Inventory : MonoBehaviour
     //Unity method to draw in screen space
     void OnGUI()
     {
+                
         tooltip = "";
         GUI.skin = skin;
 
@@ -201,7 +204,7 @@ public class Inventory : MonoBehaviour
             
             Rect slotRect = new Rect(Screen.width / 2.0f - iconSize * 2.5f + iconSize * x, Screen.height - iconSize,iconSize, iconSize);
           
-            GUI.Box(new Rect(Screen.width / 2.0f - iconSize * 2.5f + iconSize * x, Screen.height - iconSize, iconSize,iconSize), "", skin.GetStyle("Slot"));
+            GUI.Box(new Rect(Screen.width / 2.0f - iconSize * 2.5f + iconSize * x, Screen.height - iconSize, iconSize, iconSize), "", skin.GetStyle("Slot"));
 
             hotBarSlots[i] = hotBar[i];
             Item item = hotBarSlots[i];
@@ -210,7 +213,7 @@ public class Inventory : MonoBehaviour
             if (item.itemName != null && item.itemIcon != null)
             {
                 //TODO: Fix so that empty slots also are selected
-                if (selectedItem.itemID == hotBar[i].itemID)
+                if (SelectedItem.itemID == hotBar[i].itemID)
                 {
                     GUI.Box(new Rect(Screen.width / 2.0f - iconSize * 2.5f + iconSize * x, Screen.height - iconSize, iconSize,iconSize), "", skin.GetStyle("SelectedSlot"));
                 }
@@ -351,7 +354,6 @@ public class Inventory : MonoBehaviour
         }
     }
 
-
     // RemoveItem, item name and the amount to delete.
     void RemoveItem(string itemName, int amount)
     {
@@ -367,16 +369,31 @@ public class Inventory : MonoBehaviour
                     break;
                 }
                 // every other situation the item needs to be removed from inventory. Adding a empty item in its place.
-                else
+                
+                inventory[i] = new Item();
+                UpdateCraftable();
+                break;
+            }
+        }
+
+        for (int i = 0; i < hotBar.Count; i++)
+        {
+            if (hotBar[i].itemName == itemName)
+            {
+                // if the inventory contains more than amount needed the item should not be deleted, but rather decrease in quantity.
+                if (hotBar[i].itemQuantity > amount)
                 {
-                    inventory[i] = new Item();
+                    hotBar[i].itemQuantity -= amount;
                     UpdateCraftable();
                     break;
                 }
+                // every other situation the item needs to be removed from inventory. Adding a empty item in its place.
+                
+                hotBar[i] = new Item();
+                UpdateCraftable();
+                break;
             }
         }
-        //After an item is added/removed we need to UpdateCraftable again.
-        UpdateCraftable();
     }
 
     public void AddItem(int id)
@@ -389,7 +406,7 @@ public class Inventory : MonoBehaviour
             {
                 if (item.itemID == id)
                 {
-                    itemToAdd.itemQuantity += 1;
+                    item.itemQuantity += 1;
                     UpdateCraftable();
                     break;
                 }
@@ -400,7 +417,7 @@ public class Inventory : MonoBehaviour
             {
                 if (item.itemID == id)
                 {
-                    itemToAdd.itemQuantity += 1;
+                    item.itemQuantity += 1;
                     break;
                 }
             }
@@ -411,7 +428,6 @@ public class Inventory : MonoBehaviour
             {
                 if (inventory[i].itemID == -1)
                 {
-                    itemToAdd.itemQuantity = 1;
                     inventory[i] = itemToAdd;
                     UpdateCraftable();
                     //inventory[i].itemQuantity = 1; //TODO: Itemquantity varierer noen ganger. Feature or bug?
@@ -433,6 +449,15 @@ public class Inventory : MonoBehaviour
                 return true;
             }
         }
+        
+        foreach (Item item in hotBar)
+        {
+            if (item.itemName == material && item.itemQuantity >= requiredAmount)
+            {
+                return true;
+            }
+        }
+        
         return false;
     }
     
@@ -471,6 +496,8 @@ public class Inventory : MonoBehaviour
                 playerHealthManager.HealPlayer(10);
                 Debug.Log("Consume");
                 break;
+            default:
+                break;
         }
 
         if (deleteItem)
@@ -500,18 +527,17 @@ public class Inventory : MonoBehaviour
     // When the player craft the item we need to do something ...
     public void Craft(string item)
     {
-        for (int i = 0; i < craftable.Count; i++)
+        int index = recipeDatabase.recipes.IndexOf(recipeDatabase.recipes.FirstOrDefault(p => p.itemName == item));
+        int indexForItem = database.items.IndexOf(database.items.FirstOrDefault(p => p.itemName == item));
+
+        foreach (var mat in recipeDatabase.recipes[index].items.Keys)
         {
-            if (craftable[i] == item)
-            {
-                foreach (var mat in recipeDatabase.recipes[i].items.Keys)
-                {
-                    // mat is material, items[mat] is the amount
-                    RemoveItem(mat, recipeDatabase.recipes[i].items[mat]);
-                    Debug.Log("Add:"  + craftable[i]);
-                }
-            }
+            // mat is material, items[mat] is the amount
+            RemoveItem(mat, recipeDatabase.recipes[index].items[mat]);
         }
+        
+        AddItem(indexForItem);
+        UpdateCraftable();
     }
 
     void UpdateCraftable()
@@ -559,6 +585,16 @@ public class Inventory : MonoBehaviour
                 return true;
             }
         }
+        return false;
+    }
+
+    public bool CraftableContains(string item)
+    {
+        if (craftable.Any(i => i.Contains(item)))
+        {
+            return true;
+        }
+
         return false;
     }
 

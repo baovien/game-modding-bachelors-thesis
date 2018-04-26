@@ -61,9 +61,10 @@ GameObject:
   - component: {fileID: 4125932097624094}
   - component: {fileID: 212052055048403400}
   - component: {fileID: 61587967440021150}
+  - component: {fileID: 50104237989858174}
   m_Layer: 8
   m_Name: player_hand
-  m_TagString: Untagged
+  m_TagString: PlayerHand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,6 +110,26 @@ Transform:
   m_Father: {fileID: 4125932097624094}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: -45}
+--- !u!50 &50104237989858174
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1625262302607518}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!50 &50539560766274512
 Rigidbody2D:
   serializedVersion: 4

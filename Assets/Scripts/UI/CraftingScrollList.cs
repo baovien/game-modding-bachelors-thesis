@@ -8,15 +8,21 @@ public class CraftingScrollList : MonoBehaviour
 	
 	private ItemDatabase itemDatabase;
 	private Inventory inventory;
+	private CraftingWindow craftingWindow;
+	private RequirementScrollList requirementScrollList;
 
 	public Transform contentPanel;
 	public SimpleObjectPool buttonObjectPool;
 	
+	
 	// Use this for initialization
 	void Start ()
 	{
+		craftingWindow = GameObject.FindGameObjectWithTag("CraftingWindow").GetComponent<CraftingWindow>();
 		itemDatabase = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
 		inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
+		requirementScrollList = GameObject.FindGameObjectWithTag("RequirementScrollList").GetComponent<RequirementScrollList>();
+
 		RefreshDisplay();
 	}
 	
@@ -27,6 +33,13 @@ public class CraftingScrollList : MonoBehaviour
 	{
 		RemoveButtons();
 		AddButtons();
+	
+		if(contentPanel.childCount <= 0 || !inventory.CraftableContains(craftingWindow.GetItemName())){
+			craftingWindow.craftBtn.interactable = false;
+			craftingWindow.SetItemIcon(null);
+			craftingWindow.SetItemName("Select an item");
+			requirementScrollList.UpdateRequirements();
+		}
 	}
 
 	/**
@@ -34,7 +47,7 @@ public class CraftingScrollList : MonoBehaviour
 	 */
 	private void RemoveButtons()
 	{
-		while (contentPanel.childCount > 0) 
+		while (contentPanel.childCount > 0)
 		{
 			GameObject toRemove = transform.GetChild(0).gameObject;
 			buttonObjectPool.ReturnObject(toRemove);
@@ -63,5 +76,11 @@ public class CraftingScrollList : MonoBehaviour
 			}
 		}
 	}
+	
+	public int GetChildCount()
+	{
+		return contentPanel.childCount;
+	}
+	
 	
 }

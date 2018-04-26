@@ -27,8 +27,11 @@ public class CraftableItemBtn : MonoBehaviour
 
     public void HandleClick()
     {
-        craftingWindow.SetItemIcon(craftableItem);
-        craftingWindow.SetItemName(craftableItem);
+        craftingWindow.SetItemIcon(Sprite.Create(craftableItem.itemIcon, new Rect(0, 0, craftableItem.itemIcon.width, craftableItem.itemIcon.height),
+            new Vector2(0.5f, 0.5f)));
+        craftingWindow.SetItemName(craftableItem.itemName);
+        craftingWindow.craftBtn.interactable = true;
         reqScrollList.UpdateRequirements(craftableItem);
     }
+
 }

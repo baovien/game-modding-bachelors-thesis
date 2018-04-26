@@ -17,8 +17,8 @@ public class BuildSystem : MonoBehaviour
     private SpriteRenderer currentRend;
 
     // Bools to control the building system
-    private bool buildModeOn = false;
-    private bool buildBlocked = false;
+    private bool buildModeOn;
+    private bool buildBlocked;
 
     // float to adjust size of blocks 
     [SerializeField]

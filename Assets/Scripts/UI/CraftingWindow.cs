@@ -9,6 +9,7 @@ public class CraftingWindow : MonoBehaviour
     public Image itemIcon;
     public Button craftBtn;
 
+    private CraftingScrollList craftingScrollList;
     private Inventory inventory;
     private bool state;
 
@@ -16,24 +17,32 @@ public class CraftingWindow : MonoBehaviour
     void Start()
     {
         inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
+        craftingScrollList = GameObject.FindGameObjectWithTag("CraftingScrollList").GetComponent<CraftingScrollList>();
 
         craftBtn.onClick.AddListener(HandleClick);
     }
 
-    public void SetItemName(Item item)
+    public void SetItemName(string craftableItemName)
     {
-        itemName.text = item.itemName;
+        itemName.text = craftableItemName;
     }
 
-    public void SetItemIcon(Item item)
+    public string GetItemName()
     {
-        itemIcon.sprite = Sprite.Create(item.itemIcon, new Rect(0, 0, item.itemIcon.width, item.itemIcon.height),
-            new Vector2(0.5f, 0.5f));
+        return itemName.text;
+    }
+
+    public void SetItemIcon(Sprite sprite)
+    {
+        itemIcon.sprite = sprite;
     }
     
     public void HandleClick()
     {
-        inventory.Craft(itemName.text);
-        Debug.Log("Crafted " + itemName.text);
+        if (itemName.text != "Select an item")
+        {
+            inventory.Craft(itemName.text);
+            craftingScrollList.RefreshDisplay();   
+        }
     }
 }

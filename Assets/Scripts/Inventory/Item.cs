@@ -15,7 +15,6 @@ public class Item
     public int attackDamage;
     public int gatherDamage;
     public bool isSolid;
-    public List<int> recipe;
 
     //Itemtypes eg. weapon, consumable, tools etc.
     public enum ItemType

@@ -44,6 +44,11 @@ public class PlayerHandSlot : MonoBehaviour
     
 	private void OnTriggerEnter2D(Collider2D other)
 	{
+		if (other.gameObject.CompareTag("Player"))
+		{
+			return;
+		}
+		
 		if (other.gameObject.CompareTag("Tree") || other.gameObject.CompareTag("Rock"))
 		{
 			other.gameObject.GetComponent<ResourceManager>().HarvestResource(selectedItem.gatherDamage);

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +24,7 @@ public class RequirementScrollList : MonoBehaviour
 	/**
 	 * Updates the requirements for a given craftable item
 	 */
-	public void UpdateRequirements(Item item)
+	public void UpdateRequirements(Item item = null)
 	{
 		RemoveButtons();
 		AddButtons(item);
@@ -34,7 +35,7 @@ public class RequirementScrollList : MonoBehaviour
 	 */
 	private void RemoveButtons() //TODO: ERROR: Setting the parent of a transform which resides in a prefab is disabled to prevent data corruption.
 	{
-		for (int i = 0; i < contentPanel.GetChildCount(); i++)
+		for (int i = 0; i < contentPanel.childCount ; i++)
 		{
 			GameObject toRemove = transform.GetChild(i).gameObject;
 			buttonObjectPool.ReturnObject(toRemove);
@@ -46,27 +47,25 @@ public class RequirementScrollList : MonoBehaviour
 	 */
 	private void AddButtons(Item craftableItem)
 	{
-		//Finding the recipe for the item to be crafted
-		for (int i = 0; i < recipeDatabase.recipes.Count; i++)
+		if (craftableItem != null)
 		{
-			if (recipeDatabase.recipes[i].itemName == craftableItem.itemName)
+			int index = recipeDatabase.recipes.IndexOf(recipeDatabase.recipes.FirstOrDefault(p => p.itemName == craftableItem.itemName));
+			
+			Recipe recipe = recipeDatabase.recipes[index];
+			
+			//Iterating through and making a button for every requirement
+			foreach (var req in recipe.items.Keys)
 			{
-				Recipe recipe = recipeDatabase.recipes[i];
+				GameObject newButton = buttonObjectPool.GetObject();
+				newButton.transform.SetParent(contentPanel, false);
 				
-				//Iterating through and making a button for every requirement
-				foreach (var req in recipe.items.Keys)
+				//This is needed to find the correct requirement itemicon, because a recipe does not have a image. //TODO: Legge til itemicon i recipes?
+				foreach (var item in itemDatabase.items)
 				{
-					GameObject newButton = buttonObjectPool.GetObject();
-					newButton.transform.SetParent(contentPanel, false);
-					
-					//This is needed to find the correct requirement itemicon, because a recipe does not have a image. //TODO: Legge til itemicon i recipes?
-					foreach (var item in itemDatabase.items)
+					if (item.itemName == req)
 					{
-						if (item.itemName == req)
-						{
-							RequirementBtn requirementBtn = newButton.GetComponent<RequirementBtn>();
-							requirementBtn.Setup(req, recipe.items[req], item.itemIcon);
-						}
+						RequirementBtn requirementBtn = newButton.GetComponent<RequirementBtn>();
+						requirementBtn.Setup(req, recipe.items[req], item.itemIcon);
 					}
 				}
 			}

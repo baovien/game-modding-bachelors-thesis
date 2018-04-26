@@ -116,7 +116,7 @@ MonoBehaviour:
   staticUpdateFreq: 0.25
   startingCycle: 0
   cycleStartDelay: 3
-  cycleTime: 12
+  cycleTime: 60000
   day: {r: 1, g: 1, b: 1, a: 0}
   dusk: {r: 1, g: 0.88235295, b: 0.75686276, a: 1}
   night: {r: 0.08044985, g: 0.07396196, b: 0.08823532, a: 1}
