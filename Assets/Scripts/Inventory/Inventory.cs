@@ -26,12 +26,11 @@ public class Inventory : MonoBehaviour
     private int prevIndex;
     private int iconSize;
     private bool isInventoryOpen;
-    
+
     private int selectableItemsTotal;
     private int selectedItemID;
     private Item selectedItem;
-    
-    
+
 
     // Use this for initialization
     void Start()
@@ -57,17 +56,15 @@ public class Inventory : MonoBehaviour
             hotBarSlots.Add(new Item());
             hotBar.Add(new Item());
         }
-        
-
     }
 
     void Update()
     {
         // a crafting test
-         if (Input.GetKeyDown(KeyCode.Space))
-         {             
-             Craft("Stoneblock");
-         }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Craft("Stoneblock");
+        }
 
         if (Input.GetButtonDown("Inventory"))
         {
@@ -81,7 +78,7 @@ public class Inventory : MonoBehaviour
                 draggedItem = null;
             }
         }
-        
+
         // No current item
         if (SelectedItem == null)
         {
@@ -92,7 +89,7 @@ public class Inventory : MonoBehaviour
                 SelectedItem = hotBar[selectedItemID];
             }
         }
-        
+
         // Using scrollwheel to traverse the list of items in hotbar. 
         float mousewheel = Input.GetAxis("Mouse ScrollWheel");
         if (mousewheel != 0)
@@ -124,30 +121,32 @@ public class Inventory : MonoBehaviour
         {
             selectedItemID = 0;
             SelectedItem = hotBar[selectedItemID];
-        }else if (Input.GetKeyDown(KeyCode.Alpha2))
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             selectedItemID = 1;
             SelectedItem = hotBar[selectedItemID];
-        }else if (Input.GetKeyDown(KeyCode.Alpha3))
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            selectedItemID = 2;    
-            SelectedItem = hotBar[selectedItemID];
-        }else if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            selectedItemID = 3;    
-            SelectedItem = hotBar[selectedItemID];
-        }else if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            selectedItemID = 4;  
+            selectedItemID = 2;
             SelectedItem = hotBar[selectedItemID];
         }
-        
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            selectedItemID = 3;
+            SelectedItem = hotBar[selectedItemID];
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            selectedItemID = 4;
+            SelectedItem = hotBar[selectedItemID];
+        }
     }
 
     //Unity method to draw in screen space
     void OnGUI()
     {
-                
         tooltip = "";
         GUI.skin = skin;
 
@@ -173,11 +172,13 @@ public class Inventory : MonoBehaviour
         {
             if (Event.current.mousePosition.y < Screen.width / 2f)
             {
-                GUI.Box(new Rect(Event.current.mousePosition.x + 15f, Event.current.mousePosition.y, 150, 150), tooltip,skin.GetStyle("Tooltip"));
+                GUI.Box(new Rect(Event.current.mousePosition.x + 15f, Event.current.mousePosition.y, 150, 150), tooltip,
+                    skin.GetStyle("Tooltip"));
             }
             else
             {
-                GUI.Box(new Rect(Event.current.mousePosition.x + 15f, Event.current.mousePosition.y - 150, 150, 150), tooltip,skin.GetStyle("Tooltip"));
+                GUI.Box(new Rect(Event.current.mousePosition.x + 15f, Event.current.mousePosition.y - 150, 150, 150),
+                    tooltip, skin.GetStyle("Tooltip"));
             }
         }
 
@@ -201,23 +202,29 @@ public class Inventory : MonoBehaviour
 
         for (int x = 0; x < hotbarX; x++)
         {
+            Rect slotRect = new Rect(Screen.width / 2.0f - iconSize * 2.5f + iconSize * x, Screen.height - iconSize,
+                iconSize, iconSize);
             
-            Rect slotRect = new Rect(Screen.width / 2.0f - iconSize * 2.5f + iconSize * x, Screen.height - iconSize,iconSize, iconSize);
-          
-            GUI.Box(new Rect(Screen.width / 2.0f - iconSize * 2.5f + iconSize * x, Screen.height - iconSize, iconSize, iconSize), "", skin.GetStyle("Slot"));
+            //Highligts the selected slot, else normal slot
+            if (selectedItemID == x)
+            {
+                GUI.Box(
+                    new Rect(Screen.width / 2.0f - iconSize * 2.5f + iconSize * x, Screen.height - iconSize, iconSize,
+                        iconSize), "", skin.GetStyle("SelectedSlot"));
+            }
+            else
+            {
+                GUI.Box(
+                    new Rect(Screen.width / 2.0f - iconSize * 2.5f + iconSize * x, Screen.height - iconSize, iconSize,
+                        iconSize), "", skin.GetStyle("Slot"));
+            }
 
             hotBarSlots[i] = hotBar[i];
             Item item = hotBarSlots[i];
             
-            
+
             if (item.itemName != null && item.itemIcon != null)
             {
-                //TODO: Fix so that empty slots also are selected
-                if (SelectedItem.itemID == hotBar[i].itemID)
-                {
-                    GUI.Box(new Rect(Screen.width / 2.0f - iconSize * 2.5f + iconSize * x, Screen.height - iconSize, iconSize,iconSize), "", skin.GetStyle("SelectedSlot"));
-                }
-                
                 GUI.DrawTexture(slotRect, item.itemIcon);
                 GUI.Label(slotRect, item.itemQuantity.ToString()); //TODO: ITEMQUANT
 
@@ -272,6 +279,7 @@ public class Inventory : MonoBehaviour
                     }
                 }
             }
+
             i++;
         }
     }
@@ -369,7 +377,7 @@ public class Inventory : MonoBehaviour
                     break;
                 }
                 // every other situation the item needs to be removed from inventory. Adding a empty item in its place.
-                
+
                 inventory[i] = new Item();
                 UpdateCraftable();
                 break;
@@ -388,7 +396,7 @@ public class Inventory : MonoBehaviour
                     break;
                 }
                 // every other situation the item needs to be removed from inventory. Adding a empty item in its place.
-                
+
                 hotBar[i] = new Item();
                 UpdateCraftable();
                 break;
@@ -399,7 +407,7 @@ public class Inventory : MonoBehaviour
     public void AddItem(int id)
     {
         Item itemToAdd = database.FetchItemByID(id);
-        
+
         if (itemToAdd.isStackable && InventoryContains(itemToAdd.itemID))
         {
             foreach (var item in inventory)
@@ -411,7 +419,8 @@ public class Inventory : MonoBehaviour
                     break;
                 }
             }
-        }else if (itemToAdd.isStackable && HotBarContains(itemToAdd.itemID))
+        }
+        else if (itemToAdd.isStackable && HotBarContains(itemToAdd.itemID))
         {
             foreach (var item in hotBar)
             {
@@ -423,7 +432,8 @@ public class Inventory : MonoBehaviour
             }
         }
         else
-        {    //Find empty inventory space
+        {
+            //Find empty inventory space
             for (int i = 0; i < inventory.Count; i++)
             {
                 if (inventory[i].itemID == -1)
@@ -436,6 +446,7 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
+
         //After an item is added/removed we need to check craftable again.
         UpdateCraftable();
     }
@@ -449,7 +460,7 @@ public class Inventory : MonoBehaviour
                 return true;
             }
         }
-        
+
         foreach (Item item in hotBar)
         {
             if (item.itemName == material && item.itemQuantity >= requiredAmount)
@@ -457,10 +468,10 @@ public class Inventory : MonoBehaviour
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     public bool InventoryContains(int id)
     {
         foreach (Item item in inventory)
@@ -473,7 +484,7 @@ public class Inventory : MonoBehaviour
 
         return false;
     }
-    
+
     public bool HotBarContains(int id)
     {
         foreach (Item item in hotBar)
@@ -502,10 +513,10 @@ public class Inventory : MonoBehaviour
 
         if (deleteItem)
         {
-            hotBar[slot] = new Item(); 
+            hotBar[slot] = new Item();
         }
     }
-    
+
     void SaveInventory()
     {
         for (int i = 0; i < inventory.Count; i++)
@@ -523,7 +534,7 @@ public class Inventory : MonoBehaviour
                 : new Item();
         }
     }
-    
+
     // When the player craft the item we need to do something ...
     public void Craft(string item)
     {
@@ -535,7 +546,7 @@ public class Inventory : MonoBehaviour
             // mat is material, items[mat] is the amount
             RemoveItem(mat, recipeDatabase.recipes[index].items[mat]);
         }
-        
+
         AddItem(indexForItem);
         UpdateCraftable();
     }
@@ -557,6 +568,7 @@ public class Inventory : MonoBehaviour
                     }
                 }
             }
+
             if (canCraft)
             {
                 // If something is craftable, add it to the list containing items we can craft.
@@ -564,7 +576,7 @@ public class Inventory : MonoBehaviour
                 {
                     craftable.Add(recipeDatabase.recipes[i].itemName);
                     Debug.Log(recipeDatabase.recipes[i].itemName + " is craftable!");
-                        
+
                     //Refresh craftingwindow to show new craftables
                     craftingScrollList.RefreshDisplay();
                 }
@@ -575,7 +587,7 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-    
+
     public bool CheckCraftable(string itemName)
     {
         for (int i = 0; i < craftable.Count; i++)
@@ -585,6 +597,7 @@ public class Inventory : MonoBehaviour
                 return true;
             }
         }
+
         return false;
     }
 
@@ -604,5 +617,4 @@ public class Inventory : MonoBehaviour
 
         set { selectedItem = value; }
     }
-    
 }
