@@ -81,9 +81,17 @@ public class Inventory : MonoBehaviour
                 draggedItem = null;
             }
         }
-        
-        // No current item
-        if (SelectedItem == null)
+        for (int i = 0; i < inventory.Count; i++)
+        {
+            if(inventory[i].itemQuantity < 1)
+            {
+                inventory[i] = new Item();
+                UpdateCraftable();
+            }
+        }
+
+            // No current item
+            if (SelectedItem == null)
         {
             // ensure hotbar list is ready
             if (hotBar[selectedItemID] != null)

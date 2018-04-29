@@ -34,10 +34,8 @@ public class BuildSystem : MonoBehaviour
 
     // Player object reference
     private GameObject playerObject;
-
-    private ItemDatabase database;
+    private Inventory inventory;
     private List<Item> blockList;
-    private List<Item> blockList2;
 
     [SerializeField]
     private float buildDistance;
@@ -47,18 +45,21 @@ public class BuildSystem : MonoBehaviour
     {
         // Get player
         playerObject = GameObject.Find("Player");
+        inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
 
-        database = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
         //blockList = database.items;
-        blockList = (from item in database.items where item.itemType == Item.ItemType.Block select item).ToList();
+        blockList = (from item in inventory.inventory where item.itemType == Item.ItemType.Block select item).ToList();
+        if (blockList.Count < 1) Debug.Log("Nothing can be placed, Inventory doesn't contain a block");
+
     }
 
     private void Update()
     {
+        blockList = (from item in inventory.inventory where item.itemType == Item.ItemType.Block select item).ToList();
         // If <key> pressed, toggle build mode
         if (Input.GetKeyDown("e"))
         {
-            Debug.Log(blockList[0]);
+            Debug.Log(blockList.Count);
             buildModeOn = !buildModeOn;
 
             if (blockTemplate != null)
@@ -79,9 +80,6 @@ public class BuildSystem : MonoBehaviour
 
             if (buildModeOn)
             {
-                // Toggle Inventory when build mode is active??
-
-
                 // Create a new object for blockTemplate
                 blockTemplate = new GameObject("CurrentBlockTemplate");
                 // Add and store reference to a SpriteRenderer on the template objec
@@ -119,7 +117,6 @@ public class BuildSystem : MonoBehaviour
 
             if (buildBlocked)
             {
-                Debug.Log("RED");
                 currentRend.color = new Color(1f, 0f, 0f, 1f);
             }
             else
@@ -128,7 +125,7 @@ public class BuildSystem : MonoBehaviour
             }
             // Using scrollwheel to traverse the list of blocks. 
             float mousewheel = Input.GetAxis("Mouse ScrollWheel");
-            if (mousewheel != 0)
+            if (mousewheel != 0 && blockList.Count > 0)
             {
                 selectableBlocksTotal = blockList.Count - 1;
 
@@ -152,10 +149,11 @@ public class BuildSystem : MonoBehaviour
 
                 currentBlock = blockList[currentBlockID];
                 currentRend.sprite = Sprite.Create(currentBlock.itemIcon, new Rect(0, 0, currentBlock.itemIcon.width, currentBlock.itemIcon.height), new Vector2(0.5f, 0.5f));
+                currentBlock.itemQuantity = blockList[currentBlockID].itemQuantity;
             }
 
             // Placing block
-            if (Input.GetMouseButtonDown(0) && buildBlocked == false)
+            if (Input.GetMouseButtonDown(0) && buildBlocked == false && currentBlock.itemQuantity > 0)
             {
                 GameObject newBlock = new GameObject(currentBlock.itemName);
                 newBlock.transform.position = blockTemplate.transform.position;
@@ -166,7 +164,7 @@ public class BuildSystem : MonoBehaviour
                 {
                     // Need to remove it from inventory
 
-
+                    
                     newBlock.AddComponent<BoxCollider2D>();
                     newBlock.layer = 9;
                     newRend.sortingOrder = 2;
@@ -176,6 +174,16 @@ public class BuildSystem : MonoBehaviour
                     newBlock.AddComponent<BoxCollider2D>();
                     newBlock.layer = 10;
                     newRend.sortingOrder = 1;
+                }
+
+                for (int i = 0; i < inventory.inventory.Count; i++)
+                {
+                    if(inventory.inventory[i].itemID == currentBlock.itemID)
+                    {
+                        inventory.inventory[i].itemQuantity -= 1;
+                        blockList.Remove(currentBlock);
+                        break;
+                    }
                 }
             }
 
