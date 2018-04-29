@@ -1,0 +1,31 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Nibblet : MonoBehaviour, IEnemy
+{
+    public int attackDamage
+    {
+        get { return attackDamage = 12312; }
+        set {  }
+    }
+
+    public float hitPoints
+    {
+        get { return hitPoints = 111111; }
+        set { }
+    }
+
+    // Use this for initialization
+    void Start()
+    {
+
+	Debug.Log("cchhhhhhhhcho spytt lukter");
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}

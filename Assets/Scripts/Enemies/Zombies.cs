@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Zombies : Enemy
+public class Zombies : MonoBehaviour, IEnemy
 {
     public float attackSpeed;
     private float timer;
@@ -11,14 +11,25 @@ public class Zombies : Enemy
     private PlayerHealthManager phm;
     public GameObject pickableObject;
 
+    public int attackDamage
+    {
+        get { return attackDamage = 5;  }
+        set { }
+    }
+
+    public float hitPoints
+    {
+        get { return hitPoints = 12312; }
+        set {  }
+    }
+
+    public float moveSpeed { get; set; }
+
     // Use this for initialization
     void Start()
     {
-        SetTarget(GameObject.FindGameObjectWithTag("Player"));
+        //SetTarget(GameObject.FindGameObjectWithTag("Player"));
         phm = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealthManager>();
-        SetAttackDamage(0);
-        SethitPoints(50);
-        SetMoveSpeed(1.5f);
                 
         attack = true;
     }
@@ -27,7 +38,7 @@ public class Zombies : Enemy
     void Update()
     {
         //Rotate to look at player
-        transform.LookAt(GetTarget().transform.position);
+        //transform.LookAt(GetTarget().transform.position);
         transform.Rotate(new Vector2(0, -90), Space.Self);
 
         //need to reset attack even if hes not in range of player
@@ -41,13 +52,14 @@ public class Zombies : Enemy
             }
         }
         
-        if (GetHitPoints() <= 0)
+        if (hitPoints <= 0)
         {
             Destroy(gameObject);
             var instaniatedPrefab = Instantiate(pickableObject, transform.position, transform.rotation);
             instaniatedPrefab.transform.localScale = new Vector3(2, 2, transform.position.z); //Scales up the object
         }
-
+        
+        /*
         if (Vector3.Distance(transform.position, GetTarget().transform.position) < 7f)
         {
             if (Vector3.Distance(transform.position, GetTarget().transform.position) > .6f)
@@ -63,5 +75,8 @@ public class Zombies : Enemy
                 }
             }
         }
+        */
     }
+
+
 }

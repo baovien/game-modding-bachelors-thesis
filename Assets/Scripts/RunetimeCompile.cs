@@ -12,21 +12,53 @@ public class RunetimeCompile : MonoBehaviour
     public List<string> navn = new List<string>();
     void Start()
     {
-        /*
-        //TODO: change to working dir or where the geme is
-        DirectoryInfo di = new DirectoryInfo("C:/Users/Kristoffer/Desktop/Skole/DAT304 - Bachelor/bkb/bkb/Assets/Mods/");
+        
+        DirectoryInfo di = new DirectoryInfo(@"D:\Users\BaoVien\Documents\Mods");
         FileInfo[] files = di.GetFiles("*.cs");
-        foreach(FileInfo file in files)
+        foreach (FileInfo file in files)
         {
             navn.Add(file.Name);
-        }*/
 
-        string text = File.ReadAllText(@"C: \Users\Kristoffer\Documents\NoNWords\RuntimeCompiled.cs");
+        }
+
+        foreach (var filename in navn)
+        {
+            string text = File.ReadAllText(@"D:\Users\BaoVien\Documents\Mods\" + filename);
+            Debug.Log(text);
+
+            var fileName2 = filename.Substring(0, filename.Length - ".cs".Length);
+            var assembly = Compile(text);
+            
+            
+            var runtimeType = assembly.GetType(fileName2);
+            //var method = runtimeType.GetMethod("AddYourselfTo");
+            MethodInfo[] methodList = runtimeType.GetMethods();
+            
+            
+            foreach (var method in methodList)
+            {
+                Debug.Log(method);
+                var del = (Func<GameObject, MonoBehaviour>) 
+                    Delegate.CreateDelegate(
+                    typeof(Func<GameObject, MonoBehaviour>),
+                    method
+                );
+                
+                /*
+                Debug.Log(del);
+                // We ask the compiled method to add its component to this.gameObject
+                var addedComponent = del.Invoke(gameObject);
+                */
+            }
+        }
+
+        /*
+        string text = File.ReadAllText(@"D:\Users\BaoVien\Documents\Mods\Test.cs");
         Debug.Log(text);
 
         var assembly = Compile(text);
 
-        var runtimeType = assembly.GetType("RuntimeCompiled");
+        var runtimeType = assembly.GetType("Test");
         var method = runtimeType.GetMethod("AddYourselfTo");
         var del = (Func<GameObject, MonoBehaviour>)
                       Delegate.CreateDelegate(
@@ -36,6 +68,7 @@ public class RunetimeCompile : MonoBehaviour
 
         // We ask the compiled method to add its component to this.gameObject
         var addedComponent = del.Invoke(gameObject);
+        */
     }
 
     public static Assembly Compile(string source)

@@ -2,53 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour {
+public interface IEnemy
+{
 
-    private int attackDamage = 10;
-    private float hitPoints = 50f;
-    private float moveSpeed = 1.5f;
+    int attackDamage { get; set; }
+    float hitPoints { get; set; }
+    float moveSpeed { get; set; }
 
-    private GameObject target;
-    //public Animator anim;
+    //GameObject target;
 
-    public GameObject GetTarget()
-    {
-        return target;
-    }
-    public void SetTarget(GameObject tar)
-    {
-        target = tar;
-    }
-
-    public int GetAttackDamage()
-    {
-        return attackDamage;
-    }
-    public void SetAttackDamage(int a)
-    {
-       attackDamage = a;
-    }
-
-    public float GetHitPoints()
-    {
-        return hitPoints;
-    }
-    public void SethitPoints(float a)
-    {
-        hitPoints = a;
-    }
-
-    public float GetMoveSpeed()
-    {
-        return moveSpeed;
-    }
-    public void SetMoveSpeed(float a)
-    {
-        moveSpeed = a;
-    }
-
-    public void HurtEnemy(float dmg)
-    {
-        hitPoints -= dmg;
-    }
 }
