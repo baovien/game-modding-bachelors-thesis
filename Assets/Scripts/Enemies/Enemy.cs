@@ -1,10 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IEnemy
+﻿public interface IEnemy
 {
-
     int attackDamage { get; set; }
     float hitPoints { get; set; }
     float moveSpeed { get; set; }

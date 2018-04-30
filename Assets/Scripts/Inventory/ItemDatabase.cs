@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,5 +27,15 @@ public class ItemDatabase : MonoBehaviour
     public Item FetchItemByID(int id)
     {
         return items[id];
+    }
+
+    public void AddItemToDatabase(string itemName, int id, string desc, Item.ItemType type , bool stackable, int attackdmg = 1, int gatherdmg = 1)
+    {
+        items.Add(new Item(itemName, id, desc, type, stackable, attackdmg, gatherdmg));
+    }
+    
+    public void AddItemToDatabase(string myName, int id, Item.ItemType type, bool amISolid, bool stackable, int attackdmg = 1, int gatherdmg = 1)
+    {
+        items.Add(new Item(myName, id, type, amISolid, stackable, attackdmg, gatherdmg));
     }
 }

@@ -21,6 +21,8 @@ TagManager:
   - CraftingScrollList
   - CraftingWindow
   - RequirementScrollList
+  - PlayerHand
+  - ModList
   layers:
   - Default
   - TransparentFX

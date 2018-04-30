@@ -7,30 +7,32 @@ public class Zombies : MonoBehaviour, IEnemy
     public float attackSpeed;
     private float timer;
     private bool attack;
-    private Rigidbody2D myRigidBody2D;
     private PlayerHealthManager phm;
     public GameObject pickableObject;
 
     public int attackDamage
     {
-        get { return attackDamage = 5;  }
+        get { return attackDamage = 5; }
         set { }
     }
 
     public float hitPoints
     {
         get { return hitPoints = 12312; }
-        set {  }
+        set { }
     }
 
-    public float moveSpeed { get; set; }
+    public float moveSpeed
+    {
+        get { return moveSpeed = 1; }
+        set { }
+    }
 
     // Use this for initialization
     void Start()
     {
         //SetTarget(GameObject.FindGameObjectWithTag("Player"));
         phm = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealthManager>();
-                
         attack = true;
     }
 
@@ -39,7 +41,7 @@ public class Zombies : MonoBehaviour, IEnemy
     {
         //Rotate to look at player
         //transform.LookAt(GetTarget().transform.position);
-        transform.Rotate(new Vector2(0, -90), Space.Self);
+        //transform.Rotate(new Vector2(0, -90), Space.Self);
 
         //need to reset attack even if hes not in range of player
         if (attack == false)
@@ -51,14 +53,14 @@ public class Zombies : MonoBehaviour, IEnemy
                 timer = 0;
             }
         }
-        
+
         if (hitPoints <= 0)
         {
             Destroy(gameObject);
             var instaniatedPrefab = Instantiate(pickableObject, transform.position, transform.rotation);
             instaniatedPrefab.transform.localScale = new Vector3(2, 2, transform.position.z); //Scales up the object
         }
-        
+
         /*
         if (Vector3.Distance(transform.position, GetTarget().transform.position) < 7f)
         {
@@ -76,7 +78,6 @@ public class Zombies : MonoBehaviour, IEnemy
             }
         }
         */
+        
     }
-
-
 }

@@ -1,0 +1,16 @@
+using UnityEngine;
+
+public class ItemPack1 : MonoBehaviour
+{
+    
+    public ItemPack1(){
+    	Start();
+    }
+
+    void Start()
+    {
+        Debug.Log("kris lukter røk");
+    }
+
+
+}
