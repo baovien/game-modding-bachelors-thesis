@@ -12,63 +12,12 @@ public class RunetimeCompile : MonoBehaviour
     public List<string> navn = new List<string>();
     void Start()
     {
-        
-        DirectoryInfo di = new DirectoryInfo(@"D:\Users\BaoVien\Documents\Mods");
-        FileInfo[] files = di.GetFiles("*.cs");
-        foreach (FileInfo file in files)
-        {
-            navn.Add(file.Name);
+        string source = File.ReadAllText(@"C:\Users\Kristoffer\Desktop\Skole\DAT304 - Bachelor\Spillmappe\Mods\Nibblet.cs");
+        var assembly = Compile(source);
 
-        }
-
-        foreach (var filename in navn)
-        {
-            string text = File.ReadAllText(@"D:\Users\BaoVien\Documents\Mods\" + filename);
-            Debug.Log(text);
-
-            var fileName2 = filename.Substring(0, filename.Length - ".cs".Length);
-            var assembly = Compile(text);
-            
-            
-            var runtimeType = assembly.GetType(fileName2);
-            //var method = runtimeType.GetMethod("AddYourselfTo");
-            MethodInfo[] methodList = runtimeType.GetMethods();
-            
-            
-            foreach (var method in methodList)
-            {
-                Debug.Log(method);
-                var del = (Func<GameObject, MonoBehaviour>) 
-                    Delegate.CreateDelegate(
-                    typeof(Func<GameObject, MonoBehaviour>),
-                    method
-                );
-                
-                /*
-                Debug.Log(del);
-                // We ask the compiled method to add its component to this.gameObject
-                var addedComponent = del.Invoke(gameObject);
-                */
-            }
-        }
-
-        /*
-        string text = File.ReadAllText(@"D:\Users\BaoVien\Documents\Mods\Test.cs");
-        Debug.Log(text);
-
-        var assembly = Compile(text);
-
-        var runtimeType = assembly.GetType("Test");
-        var method = runtimeType.GetMethod("AddYourselfTo");
-        var del = (Func<GameObject, MonoBehaviour>)
-                      Delegate.CreateDelegate(
-                          typeof(Func<GameObject, MonoBehaviour>),
-                          method
-                  );
-
-        // We ask the compiled method to add its component to this.gameObject
-        var addedComponent = del.Invoke(gameObject);
-        */
+        var method = assembly.GetType("Nibblet").GetMethod("Start");
+        var del = (Action)Delegate.CreateDelegate(typeof(Action), method);
+        del.Invoke();
     }
 
     public static Assembly Compile(string source)

@@ -10,6 +10,10 @@ public class Zombies : MonoBehaviour, IEnemy
     private PlayerHealthManager phm;
     public GameObject pickableObject;
 
+    Rigidbody2D rb = new Rigidbody2D();
+    BoxCollider2D bc = new BoxCollider2D();
+    SpriteRenderer sr = new SpriteRenderer();
+
     public int attackDamage
     {
         get { return attackDamage = 5; }
@@ -31,6 +35,7 @@ public class Zombies : MonoBehaviour, IEnemy
     // Use this for initialization
     void Start()
     {
+        
         //SetTarget(GameObject.FindGameObjectWithTag("Player"));
         phm = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealthManager>();
         attack = true;
