@@ -56,7 +56,7 @@ public class PlayerHandSlot : MonoBehaviour
 
 		if (other.gameObject.CompareTag("Zombie"))
 		{
-			//other.gameObject.GetComponent<Zombies>().HurtEnemy(selectedItem.attackDamage);
+			other.gameObject.GetComponent<Zombies>().HitPoints -= selectedItem.attackDamage;
 		}
 	}
 }

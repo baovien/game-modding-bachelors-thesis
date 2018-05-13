@@ -8,31 +8,49 @@ public class Zombies : MonoBehaviour, IEnemy
     private float timer;
     private bool attack;
     private PlayerHealthManager phm;
+    private GameObject target;
+    private int attackDamage;
+    private float hitPoints;
+    private float moveSpeed;
+    
+    
     public GameObject pickableObject;
+    
+    public int AttackDamage
+    {
+        get { return attackDamage; }
+        private set { attackDamage = value; }
+    }
 
-    Rigidbody2D rb = new Rigidbody2D();
-    BoxCollider2D bc = new BoxCollider2D();
-    SpriteRenderer sr = new SpriteRenderer();
+    public float HitPoints
+    {
+        get { return hitPoints; }
+        set { hitPoints = value; }
+    }
 
-    public int AttackDamage{get{return 5;} }
-    public float HitPoints{get{return 100f;} }
-    public float MoveSpeed{get{return 1.5f;} }
+    public float MoveSpeed
+    {
+        get { return moveSpeed; }
+        set { moveSpeed = value; }
+    }
 
     // Use this for initialization
-    void Start()
+    public void Start()
     {
-        
-        //SetTarget(GameObject.FindGameObjectWithTag("Player"));
+        HitPoints = 100;
+        AttackDamage = 5;
+        MoveSpeed = 1.5f;
+        target = GameObject.FindGameObjectWithTag("Player");
         phm = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealthManager>();
         attack = true;
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         //Rotate to look at player
-        //transform.LookAt(GetTarget().transform.position);
-        //transform.Rotate(new Vector2(0, -90), Space.Self);
+        transform.LookAt(target.transform.position);
+        transform.Rotate(new Vector2(0, -90), Space.Self);
 
         //need to reset attack even if hes not in range of player
         if (attack == false)
@@ -51,24 +69,23 @@ public class Zombies : MonoBehaviour, IEnemy
             var instaniatedPrefab = Instantiate(pickableObject, transform.position, transform.rotation);
             instaniatedPrefab.transform.localScale = new Vector3(2, 2, transform.position.z); //Scales up the object
         }
-
-        /*
-        if (Vector3.Distance(transform.position, GetTarget().transform.position) < 7f)
+       
+        if (Vector3.Distance(transform.position, target.transform.position) < 7f)
         {
-            if (Vector3.Distance(transform.position, GetTarget().transform.position) > .6f)
+            if (Vector3.Distance(transform.position, target.transform.position) > .6f)
             {       //move if distance from target is greater than 0.6
-                transform.Translate(new Vector2(GetMoveSpeed() * Time.deltaTime, 0));
+                transform.Translate(new Vector2(moveSpeed * Time.deltaTime, 0));
             }
             else
             {
                 if (attack)
                 {
-                    phm.HurtPlayer(GetAttackDamage());
+                    phm.HurtPlayer(attackDamage);
                     attack = false;
                 }
             }
-        }
-        */
-        
+        }       
     }
+    
+    
 }

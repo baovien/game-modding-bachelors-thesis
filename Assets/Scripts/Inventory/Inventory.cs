@@ -211,19 +211,26 @@ public class Inventory : MonoBehaviour
             
             Rect slotRect = new Rect(Screen.width / 2.0f - iconSize * 2.5f + iconSize * x, Screen.height - iconSize,iconSize, iconSize);
           
-            GUI.Box(new Rect(Screen.width / 2.0f - iconSize * 2.5f + iconSize * x, Screen.height - iconSize, iconSize, iconSize), "", skin.GetStyle("Slot"));
-
+            //Highligts the selected slot, else normal slot
+            if (selectedItemID == x)
+            {
+                GUI.Box(
+                    new Rect(Screen.width / 2.0f - iconSize * 2.5f + iconSize * x, Screen.height - iconSize, iconSize,
+                        iconSize), "", skin.GetStyle("SelectedSlot"));
+            }
+            else
+            {
+                GUI.Box(
+                    new Rect(Screen.width / 2.0f - iconSize * 2.5f + iconSize * x, Screen.height - iconSize, iconSize,
+                        iconSize), "", skin.GetStyle("Slot"));
+            }
+            
             hotBarSlots[i] = hotBar[i];
             Item item = hotBarSlots[i];
-            
+          
             
             if (item.itemName != null && item.itemIcon != null)
             {
-                //TODO: Fix so that empty slots also are selected
-                if (SelectedItem.itemID == hotBar[i].itemID)
-                {
-                    GUI.Box(new Rect(Screen.width / 2.0f - iconSize * 2.5f + iconSize * x, Screen.height - iconSize, iconSize,iconSize), "", skin.GetStyle("SelectedSlot"));
-                }
                 
                 GUI.DrawTexture(slotRect, item.itemIcon);
                 GUI.Label(slotRect, item.itemQuantity.ToString()); //TODO: ITEMQUANT

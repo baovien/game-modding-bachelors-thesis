@@ -1,9 +1,10 @@
 ﻿public interface IEnemy
 {
     int AttackDamage { get; }
-    float HitPoints { get; }
-    float MoveSpeed { get; }
+    float HitPoints { get; set; }
+    float MoveSpeed { get; set; }
 
-    //GameObject target;
+    void Start();
+    void Update();
 
 }

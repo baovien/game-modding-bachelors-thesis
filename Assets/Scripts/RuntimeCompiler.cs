@@ -16,7 +16,10 @@ public class RuntimeCompiler : MonoBehaviour
     
     void Start()
     {
+        //Folderpath to user Documents/BareKoding
         folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/BareKoding/";
+        
+        //Creates a BareKoding folder if it does not exist
         try
         {
             if (!Directory.Exists(folderPath))
@@ -30,24 +33,24 @@ public class RuntimeCompiler : MonoBehaviour
             Debug.Log(ex.Message);
         }
 
+        //Adds all filenames to a list
         DirectoryInfo di = new DirectoryInfo(folderPath);
         FileInfo[] files = di.GetFiles("*.cs");
         foreach (FileInfo file in files)
         {
             navn.Add(file.Name);
         }
-
+        
         foreach (var fileName in navn)
         {
-            
-            string text = File.ReadAllText(folderPath + fileName);
-            var fileName2 = fileName.Substring(0, fileName.Length - ".cs".Length);
-            var assembly = Compile(text);
-            var method = assembly.GetType(fileName2).GetMethod("InstantiateMe");
+            string text = File.ReadAllText(folderPath + fileName);                    //Stores code to a string
+            var fileName2 = fileName.Substring(0, fileName.Length - ".cs".Length);    //Add .cs extension
+            var assembly = Compile(text);                                             //Compile code to assembly
+            var method = assembly.GetType(fileName2).GetMethod("InstantiateMe");      //Get IntantiateMe method of the mod
             
             if (method != null)
             {
-                var del = (Action) Delegate.CreateDelegate(typeof(Action), method);
+                var del = (Action) Delegate.CreateDelegate(typeof(Action), method);  
                 del.Invoke();
             }
         }

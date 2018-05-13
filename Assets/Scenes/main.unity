@@ -704,7 +704,7 @@ Prefab:
     - target: {fileID: 114890053130919100, guid: 302cadd75eaf44344bfb73b874364b3d,
         type: 2}
       propertyPath: cycleTime
-      value: 1000
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 302cadd75eaf44344bfb73b874364b3d, type: 2}
