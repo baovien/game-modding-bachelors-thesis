@@ -14,23 +14,9 @@ public class Zombies : MonoBehaviour, IEnemy
     BoxCollider2D bc = new BoxCollider2D();
     SpriteRenderer sr = new SpriteRenderer();
 
-    public int attackDamage
-    {
-        get { return attackDamage = 5; }
-        set { }
-    }
-
-    public float hitPoints
-    {
-        get { return hitPoints = 12312; }
-        set { }
-    }
-
-    public float moveSpeed
-    {
-        get { return moveSpeed = 1; }
-        set { }
-    }
+    public int AttackDamage{get{return 5;} }
+    public float HitPoints{get{return 100f;} }
+    public float MoveSpeed{get{return 1.5f;} }
 
     // Use this for initialization
     void Start()
@@ -59,7 +45,7 @@ public class Zombies : MonoBehaviour, IEnemy
             }
         }
 
-        if (hitPoints <= 0)
+        if (HitPoints <= 0)
         {
             Destroy(gameObject);
             var instaniatedPrefab = Instantiate(pickableObject, transform.position, transform.rotation);

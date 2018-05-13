@@ -21,18 +21,19 @@ public class RequirementScrollList : MonoBehaviour
 		RemoveButtons();
 	}
 
-	/**
-	 * Updates the requirements for a given craftable item
-	 */
+	/// <summary>
+	/// Updates the requirements for a given craftable item
+	/// </summary>
+	/// <param name="item"></param>
 	public void UpdateRequirements(Item item = null)
 	{
 		RemoveButtons();
 		AddButtons(item);
 	}
 
-	/**
-	 * Removes all child members of the contentPanel in Req. scrollList
-	 */
+	/// <summary>
+	///  Removes all child members of the contentPanel in Req. scrollList
+	/// </summary>
 	private void RemoveButtons() //TODO: ERROR: Setting the parent of a transform which resides in a prefab is disabled to prevent data corruption.
 	{
 		for (int i = 0; i < contentPanel.childCount ; i++)
@@ -42,9 +43,10 @@ public class RequirementScrollList : MonoBehaviour
 		}
 	}
 	
-	/**
-	 * Add button for each requirement of a craftable item - to req. scrollList
-	 */
+	/// <summary>
+	/// Add button for each requirement of a craftable item - to req. scrollList
+	/// </summary>
+	/// <param name="craftableItem"></param>
 	private void AddButtons(Item craftableItem)
 	{
 		if (craftableItem != null)

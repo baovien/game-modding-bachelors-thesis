@@ -6,18 +6,51 @@ using System.Reflection;
 using System.Text;
 using UnityEngine;
 using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 
-public class RunetimeCompile : MonoBehaviour
+public class RuntimeCompiler : MonoBehaviour
 {
     public List<string> navn = new List<string>();
+
+    private string folderPath;
+    
     void Start()
     {
-        string source = File.ReadAllText(@"C:\Users\Kristoffer\Desktop\Skole\DAT304 - Bachelor\Spillmappe\Mods\Nibblet.cs");
-        var assembly = Compile(source);
+        folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/BareKoding/";
+        try
+        {
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+                Debug.Log("Created folder.");
+            }
+        }
+        catch (IOException ex)
+        {
+            Debug.Log(ex.Message);
+        }
 
-        var method = assembly.GetType("Nibblet").GetMethod("Start");
-        var del = (Action)Delegate.CreateDelegate(typeof(Action), method);
-        del.Invoke();
+        DirectoryInfo di = new DirectoryInfo(folderPath);
+        FileInfo[] files = di.GetFiles("*.cs");
+        foreach (FileInfo file in files)
+        {
+            navn.Add(file.Name);
+        }
+
+        foreach (var fileName in navn)
+        {
+            
+            string text = File.ReadAllText(folderPath + fileName);
+            var fileName2 = fileName.Substring(0, fileName.Length - ".cs".Length);
+            var assembly = Compile(text);
+            var method = assembly.GetType(fileName2).GetMethod("InstantiateMe");
+            
+            if (method != null)
+            {
+                var del = (Action) Delegate.CreateDelegate(typeof(Action), method);
+                del.Invoke();
+            }
+        }
     }
 
     public static Assembly Compile(string source)
@@ -51,6 +84,7 @@ public class RunetimeCompile : MonoBehaviour
                 msg.AppendFormat("Error ({0}): {1}\n",
                     error.ErrorNumber, error.ErrorText);
             }
+
             throw new Exception(msg.ToString());
         }
 

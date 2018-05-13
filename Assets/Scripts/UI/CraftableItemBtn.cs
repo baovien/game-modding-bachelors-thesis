@@ -17,7 +17,11 @@ public class CraftableItemBtn : MonoBehaviour
         reqScrollList = GameObject.FindGameObjectWithTag("RequirementScrollList").GetComponent<RequirementScrollList>();
         buttonComponent.onClick.AddListener(HandleClick);
     }
-
+    
+    /// <summary>
+    /// Sets up a craftable item btn
+    /// </summary>
+    /// <param name="currentItem"></param>
     public void Setup(Item currentItem)
     {
         craftableItem = currentItem;

@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+/**
+ * This script is taken and modified from a Unity tutorial on userinterfaces and creating a shop UI with runtime scrollLists
+ * https://unity3d.com/learn/tutorials/topics/user-interface-ui/intro-and-setup?playlist=17111
+ * 
+ */
+
 // A very simple object pooling class
 public class SimpleObjectPool : MonoBehaviour
 {

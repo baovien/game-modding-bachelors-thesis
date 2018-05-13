@@ -82,9 +82,10 @@ public class PlayerController : MonoBehaviour
     }
     
 //TODO: Rewrite this to a general solution, additionally layers
-    /*
-     * Pick up item and add to inventory
-     */
+    /// <summary>
+    /// Pick up item and add to inventory
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("PlayerHand"))

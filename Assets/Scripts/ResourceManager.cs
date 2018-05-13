@@ -11,7 +11,6 @@ public class ResourceManager : MonoBehaviour
 
     private bool isQuitting;
 
-
     // Use this for initialization
     void Start()
     {
@@ -36,11 +35,12 @@ public class ResourceManager : MonoBehaviour
     // Will be called just prior to destruction of the gameobject to which this script is attached
     void OnDestroy()
     {
+        //Makes sure that the resources does not instantiate objects when destroyed upon quitgame.
         if (!isQuitting)
         {
             //Instantiate pickable gameobject after harvesting resource
-            var instaniatedPrefab = Instantiate(pickableObject, transform.position, transform.rotation);
-            instaniatedPrefab.transform.localScale = new Vector3(2, 2, transform.position.z); //Scales up the object
+            var instantiatedPrefab = Instantiate(pickableObject, transform.position, transform.rotation);
+            instantiatedPrefab.transform.localScale = new Vector3(2, 2, transform.position.z); //Scales up the object
         }
     }
 

@@ -30,8 +30,6 @@ public class Inventory : MonoBehaviour
     private int selectableItemsTotal;
     private int selectedItemID;
     private Item selectedItem;
-    
-    
 
     // Use this for initialization
     void Start()
@@ -40,7 +38,6 @@ public class Inventory : MonoBehaviour
         database = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
         recipeDatabase = GameObject.FindGameObjectWithTag("RecipeDatabase").GetComponent<RecipeDatabase>();
         craftingScrollList = GameObject.FindGameObjectWithTag("CraftingScrollList").GetComponent<CraftingScrollList>();
-
 
         iconSize = 40;
         SelectedItem = new Item();
@@ -199,7 +196,9 @@ public class Inventory : MonoBehaviour
         //Disables tooltip when inventory is closed
         showTooltip = false;
     }
-
+    /// <summary>
+    /// Draws hotbar. Must be called inside Unity event OnGUI() function.
+    /// </summary>
     void DrawHotBar()
     {
         Event e = Event.current;
@@ -283,7 +282,10 @@ public class Inventory : MonoBehaviour
             i++;
         }
     }
-
+    
+    /// <summary>
+    /// Draws inventory. Must be used inside Unity's OnGUI() method.
+    /// </summary>
     void DrawInventory()
     {
         Event e = Event.current;
@@ -362,8 +364,12 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    // RemoveItem, item name and the amount to delete.
-    void RemoveItem(string itemName, int amount)
+    /// <summary>
+    /// Removes item and amount from inventory.
+    /// </summary>
+    /// <param name="itemName">Case sensitive item name</param>
+    /// <param name="amount">Amount to remove</param>
+    public void RemoveItem(string itemName, int amount)
     {
         for (int i = 0; i < inventory.Count; i++)
         {
@@ -404,7 +410,11 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void AddItem(int id)
+    /// <summary>
+    /// Adds item from inventory
+    /// </summary>
+    /// <param name="id"></param>
+    public void AddItem(int id) //TODO: Add quantity
     {
         Item itemToAdd = database.FetchItemByID(id);
         
@@ -448,7 +458,14 @@ public class Inventory : MonoBehaviour
         UpdateCraftable();
     }
 
-    public bool InventoryContains(string material, int requiredAmount)
+    /// <summary>
+    /// Check if inventory and hotbar contains an item and quantity of the item.
+    /// Used for crafting check.
+    /// </summary>
+    /// <param name="material"></param>
+    /// <param name="requiredAmount"></param>
+    /// <returns></returns>
+    public bool InventoryAndHotbarContains(string material, int requiredAmount)
     {
         foreach (Item item in inventory)
         {
@@ -469,6 +486,11 @@ public class Inventory : MonoBehaviour
         return false;
     }
     
+    /// <summary>
+    /// Check if inventory contains an item.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public bool InventoryContains(int id)
     {
         foreach (Item item in inventory)
@@ -482,6 +504,11 @@ public class Inventory : MonoBehaviour
         return false;
     }
     
+    /// <summary>
+    /// Check if hotbar contains an item.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public bool HotBarContains(int id)
     {
         foreach (Item item in hotBar)
@@ -494,8 +521,14 @@ public class Inventory : MonoBehaviour
 
         return false;
     }
-
-    void UseConsumable(Item item, int slot, bool deleteItem)
+    
+    /// <summary>
+    /// Use a consumable. Can be overwritten.
+    /// </summary>
+    /// <param name="item">Item to consume</param>
+    /// <param name="slot">Slot to remove item</param>
+    /// <param name="deleteItem">If one time use or not</param>
+    void UseConsumable(Item item, int slot, bool deleteItem) //TODO: Quantity remove
     {
         switch (item.itemID)
         {
@@ -532,7 +565,10 @@ public class Inventory : MonoBehaviour
         }
     }
     
-    // When the player craft the item we need to do something ...
+    /// <summary>
+    /// Crafts the item and removes the itemrequirements.
+    /// </summary>
+    /// <param name="item">Item to craft</param>
     public void Craft(string item)
     {
         int index = recipeDatabase.recipes.IndexOf(recipeDatabase.recipes.FirstOrDefault(p => p.itemName == item));
@@ -548,6 +584,9 @@ public class Inventory : MonoBehaviour
         UpdateCraftable();
     }
 
+    /// <summary>
+    /// Update craftable items. Called e.g. everytime player picks up an item.
+    /// </summary>
     void UpdateCraftable()
     {
         for (int i = 0; i < recipeDatabase.recipes.Count; i++)
@@ -555,7 +594,7 @@ public class Inventory : MonoBehaviour
             bool canCraft = true;
             foreach (var mat in recipeDatabase.recipes[i].items.Keys)
             {
-                if (!InventoryContains(mat, recipeDatabase.recipes[i].items[mat]))
+                if (!InventoryAndHotbarContains(mat, recipeDatabase.recipes[i].items[mat]))
                 {
                     //if one of the materials are missing the item can not be crafted, set false for that recipe.                   
                     canCraft = false;
@@ -584,6 +623,11 @@ public class Inventory : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Check if item is craftable.
+    /// </summary>
+    /// <param name="itemName">Item to check</param>
+    /// <returns></returns>
     public bool CheckCraftable(string itemName)
     {
         for (int i = 0; i < craftable.Count; i++)
@@ -596,6 +640,11 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Check if craftable contains an craftable item.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
     public bool CraftableContains(string item)
     {
         if (craftable.Any(i => i.Contains(item)))
@@ -606,6 +655,9 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Get setter for the selected item. Used for hotbar.
+    /// </summary>
     public Item SelectedItem
     {
         get { return selectedItem; }

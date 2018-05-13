@@ -23,6 +23,7 @@ TagManager:
   - RequirementScrollList
   - PlayerHand
   - ModList
+  - ModManager
   layers:
   - Default
   - TransparentFX

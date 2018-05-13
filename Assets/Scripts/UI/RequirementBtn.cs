@@ -8,6 +8,12 @@ public class RequirementBtn : MonoBehaviour
     public Text itemAmount;
     public Image itemIcon;
     
+    /// <summary>
+    /// Sets up a req. btn 
+    /// </summary>
+    /// <param name="reqName"></param>
+    /// <param name="reqAmount"></param>
+    /// <param name="icon"></param>
     public void Setup(string reqName, int reqAmount, Texture2D icon)
     {
         itemName.text = reqName;

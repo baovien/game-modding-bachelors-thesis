@@ -26,9 +26,9 @@ public class CraftingScrollList : MonoBehaviour
 		RefreshDisplay();
 	}
 	
-	/**
-	 * Refreshes the craftables scroll list. 
-	 */
+	/// <summary>
+	/// Refreshes the craftables scroll list. 
+	/// </summary>
 	public void RefreshDisplay()
 	{
 		RemoveButtons();
@@ -42,9 +42,9 @@ public class CraftingScrollList : MonoBehaviour
 		}
 	}
 
-	/**
-	 * Removes all child members of the contenPanel in craftingScrollList
-	 */
+	/// <summary>
+	/// Removes all child members of the contenPanel in craftingScrollList
+	/// </summary>
 	private void RemoveButtons()
 	{
 		while (contentPanel.childCount > 0)
@@ -54,9 +54,9 @@ public class CraftingScrollList : MonoBehaviour
 		}
 	}
 	
-	/**
-	 * Add button for every craftable items available.
-	 */
+	/// <summary>
+	/// Add button for every craftable items available.
+	/// </summary>
 	private void AddButtons()
 	{
 		//Iterating through to get the craftable item's values for making the button.
@@ -77,6 +77,10 @@ public class CraftingScrollList : MonoBehaviour
 		}
 	}
 	
+	/// <summary>
+	/// Returns childcounts of the list
+	/// </summary>
+	/// <returns></returns>
 	public int GetChildCount()
 	{
 		return contentPanel.childCount;
