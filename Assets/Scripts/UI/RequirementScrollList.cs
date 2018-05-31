@@ -28,6 +28,8 @@ public class RequirementScrollList : MonoBehaviour
 	public void UpdateRequirements(Item item = null)
 	{
 		RemoveButtons();
+		RemoveButtons();
+
 		AddButtons(item);
 	}
 
@@ -61,7 +63,7 @@ public class RequirementScrollList : MonoBehaviour
 				GameObject newButton = buttonObjectPool.GetObject();
 				newButton.transform.SetParent(contentPanel, false);
 				
-				//This is needed to find the correct requirement itemicon, because a recipe does not have a image. //TODO: Legge til itemicon i recipes?
+				//This is needed to find the correct requirement itemicon, because a recipe does not have a image. 
 				foreach (var item in itemDatabase.items)
 				{
 					if (item.itemName == req)

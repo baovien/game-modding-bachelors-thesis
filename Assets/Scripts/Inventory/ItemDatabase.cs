@@ -18,7 +18,7 @@ public class ItemDatabase : MonoBehaviour
         items.Add(new Item("Stoneblock", 4, Item.ItemType.Block, true, true));
         
         //Tools and Weapons
-        items.Add(new Item("Sword", 5, "swerd", Item.ItemType.Weapon, false, attackdmg: 5));
+        items.Add(new Item("Sword", 5, "swerd", Item.ItemType.Weapon, false, attackdmg: 20));
         items.Add(new Item("Pickaxe", 6, "hakke", Item.ItemType.Tool, false, gatherdmg: 5));
         items.Add(new Item("Axe", 7, "øks", Item.ItemType.Tool, false, gatherdmg: 5));
 

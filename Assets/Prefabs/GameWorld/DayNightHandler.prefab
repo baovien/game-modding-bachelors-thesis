@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zombie: {fileID: 1100474479740042, guid: 9304292db88ed034e9594d1b2ca8a250, type: 2}
-  numberOfZombies: 8
+  numberOfZombies: 3
   spawnValuesXStart: -6
   spawnValuesXEnd: 6
   spawnValuesYStart: 2
@@ -116,7 +116,7 @@ MonoBehaviour:
   staticUpdateFreq: 0.25
   startingCycle: 0
   cycleStartDelay: 3
-  cycleTime: 60000
+  cycleTime: 120
   day: {r: 1, g: 1, b: 1, a: 0}
   dusk: {r: 1, g: 0.88235295, b: 0.75686276, a: 1}
   night: {r: 0.08044985, g: 0.07396196, b: 0.08823532, a: 1}

@@ -157,11 +157,13 @@ public class Inventory : MonoBehaviour
         GUI.skin = skin;
 
         DrawHotBar();
-
+    
         if (showInventory)
         {
             DrawInventory();
-
+            
+            /* Used for debugging purposes
+    
             if (GUI.Button(new Rect(40, 450, 100, 40), "Save"))
             {
                 SaveInventory();
@@ -171,6 +173,7 @@ public class Inventory : MonoBehaviour
             {
                 LoadInventory();
             }
+            */
         }
 
         //Show tooltip when hovering over an item
