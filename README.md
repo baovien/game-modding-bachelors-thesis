@@ -24,10 +24,6 @@ Open project folder with Unity
 * [Unity](https://unity3d.com/) - Unity Game Engine
 
 
-## Versioning
-
-We use [GitHub](https://github.com/) for versioning. For the versions available, see the [tags on this repository](https://github.com/baovien/bkb/tags). 
-
 ## Authors
 
 * **Anders Ghouchbar**
