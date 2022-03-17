@@ -1,4 +1,4 @@
-# Bare Koding Bachelor
+# Designing for Extensibility: Allowing third party modifications in modern video games
 
 DAT304 Bachelor project
 
