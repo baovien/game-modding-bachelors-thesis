@@ -1,4 +1,9 @@
+### Bachelor's Thesis
+
 # Designing for Extensibility: Allowing third party modifications in modern video games
+The Bachelor’s Thesis was written for the University of Agder in the spring of 2018. The subject of
+the research is modding in modern video games. Particularly what measures developers take when
+allowing mods in their game.
 
 ## Abstract
 This thesis investigates what measures developers take to allow third party modifications in modern
